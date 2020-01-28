@@ -1,6 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, loader
 from django.http import HttpResponse
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the management index.")
+def users(request):
+    template = loader.get_template('users.html')
+    context = {} #no data to put on front page
+    return HttpResponse(template.render(context,request))
+
+
+def login(request):
+    template = loader.get_template('login.html')
+    context = {} #no data to put on front page
+    return HttpResponse(template.render(context,request))
