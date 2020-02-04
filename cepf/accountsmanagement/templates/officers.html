@@ -1,0 +1,208 @@
+{% extends 'static.html' %}
+{% block title%} Officers {% endblock %}
+
+{% block content %}
+<div class="row mb-2">
+  <div class="col-sm-12 col-md-8 ">
+    <!-- general form elements disabled -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Add officer</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- text input -->
+              <div class="form-group">
+                <label>Officer name</label>
+                <input type="text" id="officerName" class="form-control" placeholder="Enter ...">
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label>Officer surname</label>
+                <input type="text" id="officerSurname" class="form-control" placeholder="Enter ...">
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label>Work eMail</label>
+                <input type="email" id="officerEMail" class="form-control" placeholder="Enter ...">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Badge number</label>
+                <input type="text" id="officerBadgeNumber" class="form-control" placeholder="Enter ...">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <!-- select -->
+              <div class="form-group">
+                <label>Department</label>
+                <select class="form-control">
+                  <option>option 1</option>
+                  <option>option 2</option>
+                  <option>option 3</option>
+                  <option>option 4</option>
+                  <option>option 5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- Select multiple-->
+              <div class="form-group">
+                <label>In charge of</label>
+                <select multiple class="form-control">
+                  <option>option 1</option>
+                  <option>option 2</option>
+                  <option>option 3</option>
+                  <option>option 4</option>
+                  <option>option 5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-info">Add officer</button>
+        <button type="submit" class="btn btn-default float-right">Cancel</button>
+      </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 ">
+
+    <!-- DONUT CHART -->
+    <div class="card card-danger" style="height: 310.5px;">
+      <div class="card-header">
+        <h3 class="card-title">Officers per department</h3>
+
+        <div class="card-tools">
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="donutChart" style= "max-width: 100%;"></canvas>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+    <!-- DONUT CHART -->
+    <div class="card card-danger" style="height: 310.5px">
+      <div class="card-header">
+        <h3 class="card-title">Officers per community</h3>
+
+        <div class="card-tools">
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="donutChart2" style=" height: 200px; max-width: 100%;"></canvas>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Officers</h3>
+
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Badge Number</th>
+              <th>eMail</th>
+              <th>Department</th>
+              <th>Communities</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>183</td>
+              <td>John Doe</td>
+              <td>11-7-2014</td>
+              <td>183</td>
+              <td>John Doe</td>
+              <td>11-7-2014</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block body %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+<script>
+  $(function () {
+    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    var donutChartCanvas2 = $('#donutChart2').get(0).getContext('2d')
+
+    var donutData = {
+      labels: [
+        'Chrome',
+        'IE',
+        'FireFox',
+ 
+      ],
+      datasets: [
+        {
+          data: [100, 500, 400],
+          backgroundColor: ['#f56954', '#00a65a', '#f39c12'],
+        }
+      ]
+    }
+    var donutOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+
+    var donutChart = new Chart(donutChartCanvas2, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+  });
+</script>
+{% endblock %}
