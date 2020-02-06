@@ -1,0 +1,115 @@
+{% extends 'static.html' %}
+{% block title%} Departments {% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-12 col-md-4 ">
+    <!-- general form elements disabled -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Add department</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-12">
+              <!-- text input -->
+              <div class="form-group">
+                <label>Department name</label>
+                <input type="text" id="officerName" class="form-control" placeholder="Enter ...">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label>Officer in charge</label>
+                <select class="form-control">
+                  <option>option 1</option>
+                  <option>option 2</option>
+                  <option>option 3</option>
+                  <option>option 4</option>
+                  <option>option 5</option>
+                </select>
+              </div>
+            </div>
+
+            
+
+          </div>
+          <div class="row">
+            <div class="col-12">
+              
+
+                <label>Permisions</label>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" >
+                  <label class="form-check-label">Officers in this department can add new officer to the system</label>
+                </div>
+  
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" >
+                  <label class="form-check-label">Officers in department can add new communities to the system</label>
+                </div>
+
+            </div>
+          </div>
+
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-info">Add officer</button>
+        <button type="submit" class="btn btn-default float-right">Cancel</button>
+      </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Departments</h3>
+
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th>Department Name</th>
+              <th>Responsible Officer</th>
+              <th>Roles</th>
+              <th>Number of officers</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>183</td>
+              <td>John Doe</td>
+              <td>11-7-2014</td>
+              <td>8645</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

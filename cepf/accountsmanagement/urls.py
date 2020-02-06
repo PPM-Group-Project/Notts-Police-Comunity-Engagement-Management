@@ -4,8 +4,10 @@ from . import views
 
 urlpatterns = [
     path('login/', views.login),
-    path('dashboard/', views.users),
-    path('dashboard/officers/', views.users),
+    path('dashboard/', views.dashboard ),
+    path('dashboard/officers/', views.officers),
+    path('dashboard/departments/', views.departments),
+    path('dashboard/communities',views.communities),
 
     
 ]
