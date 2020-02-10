@@ -8,6 +8,5 @@ urlpatterns = [
     path('dashboard/officers/', views.officers),
     path('dashboard/departments/', views.departments),
     path('dashboard/communities',views.communities),
-
     
 ]
