@@ -6,4 +6,6 @@
         "--load-plugins=pylint_django",
         "--disable=R,C"
     ],
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.flake8Enabled": false,
 }

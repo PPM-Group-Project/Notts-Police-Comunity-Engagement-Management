@@ -11,25 +11,32 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <form role="form">
+        <form role="form" action="/officers/add" method="POST">
+          {% csrf_token %}
           <div class="row">
             <div class="col-sm-12">
               <!-- text input -->
               <div class="form-group">
                 <label>Officer name</label>
-                <input type="text" id="officerName" class="form-control" placeholder="Enter ...">
+                <input type="text" id="officerName" name="officerName" class="form-control" placeholder="Enter ..." required>
               </div>
             </div>
             <div class="col-sm-12">
               <div class="form-group">
                 <label>Officer surname</label>
-                <input type="text" id="officerSurname" class="form-control" placeholder="Enter ...">
+                <input type="text" id="officerSurname" name="officerSurname" class="form-control" placeholder="Enter ..." required>
               </div>
             </div>
-            <div class="col-sm-12">
-              <div class="form-group">
+            <div class="col-sm-7">
+              <div class="form-grou\sp">
                 <label>Work eMail</label>
-                <input type="email" id="officerEMail" class="form-control" placeholder="Enter ...">
+                <input type="eMail" id="officereMail" name="officereMail" class="form-control" placeholder="Enter ..." required>
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <div class="form-group">
+                <label>Username</label>
+                <input id="officerUsername" name ="officerUsername" class="form-control" >
               </div>
             </div>
           </div>
@@ -37,7 +44,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Badge number</label>
-                <input type="text" id="officerBadgeNumber" class="form-control" placeholder="Enter ...">
+                <input type="text" id="officerBadgeNumber" name = "officerBadgeNumber" class="form-control" placeholder="Enter ..." required>
               </div>
             </div>
 
@@ -45,12 +52,14 @@
               <!-- select -->
               <div class="form-group">
                 <label>Department</label>
-                <select class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
+                <select class="form-control" name="department">
+                  <option>None</option>
+                  {% if departments %}
+                  {% for dep in departments %}
+                  <option>{{dep.departmentName}}</option>
+                  {% endfor %}
+                  {% endif %}
+
                 </select>
               </div>
             </div>
@@ -60,34 +69,24 @@
               <!-- Select multiple-->
               <div class="form-group">
                 <label>In charge of</label>
-                <select multiple class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
+                <select multiple class="form-control" name="communities">
+                  {% if communities %}
+                  {% for com in communities %}
+                  <option>{{com.communityName}}</option>
+                  {% endfor %}
+                  {% endif %}
                 </select>
               </div>
             </div>
+          </div>
 
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label>Roles</label>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox">
-                  <label class="form-check-label">Officer manager</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox">
-                  <label class="form-check-label">Department manager</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox">
-                  <label class="form-check-label">Event manager</label>
-                </div>
+            {% if addOfficerError %}
+            <div class="row">
+              <div class="col-12">
+                <p style="color: red;">Error adding officer,please check details</p>
               </div>
             </div>
-          </div>
+            {% endif %}
       </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-info">Add officer</button>
@@ -151,23 +150,24 @@
         <table class="table table-hover text-nowrap">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
-              <th>Badge Number</th>
               <th>eMail</th>
+              <th>Badge Number</th>
               <th>Department</th>
-              <th>Communities</th>
             </tr>
           </thead>
           <tbody>
+            {% if officers %}
+            {% for officer in officers%}
             <tr>
-              <td>183</td>
-              <td>John Doe</td>
-              <td>11-7-2014</td>
-              <td>183</td>
-              <td>John Doe</td>
-              <td>11-7-2014</td>
+              <td>{{officer.user.first_name}} {{officer.user.last_name}}</td>
+              <td>{{officer.user.email}}</td>
+              <td>{{officer.badgeNumber}}</td>
+              <td>{{officer.department.departmentName}}</td>
             </tr>
+            {% endfor %}
+            {% endif %}
+    
 
           </tbody>
         </table>
@@ -186,6 +186,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <script>
+
+  const eMailSection = document.getElementById('officereMail')
+  eMailSection.addEventListener('keyup', function (event) {
+    var text = document.getElementById('officereMail').value;
+    if (text.includes("@") === false) {
+      document.getElementById('officerUsername').value = text;
+    }
+    else{
+      document.getElementById('officerUsername').value = text.split('@')[0];
+
+    }
+  });
   $(function () {
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     var donutChartCanvas2 = $('#donutChart2').get(0).getContext('2d')

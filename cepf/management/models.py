@@ -5,7 +5,7 @@ class Department(models.Model):
     # unique department id
     id = models.AutoField(primary_key=True)
     # department name
-    deparmentName = models.CharField(max_length=100, default="")
+    departmentName = models.CharField(max_length=100, default="")
     # responsible officer , User object from django.contrib.auth.models
     responsibleOfficer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     # description of the department

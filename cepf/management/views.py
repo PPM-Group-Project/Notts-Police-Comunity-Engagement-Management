@@ -3,8 +3,9 @@ from django.shortcuts import redirect
 from django.shortcuts import loader
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
+from django.core.exceptions import ObjectDoesNotExist
 #from django.contrib.auth.forms import UserCreationForm
-
+from .models import UserDetails, Department
 from django.contrib.auth.models import User
 
 
@@ -23,10 +24,9 @@ def loginUser(request):
         return HttpResponse(template.render(context,request))
     else:
         try:
-            email = request.POST.get('email')
+            username = request.POST.get('username')
             passwd = request.POST.get('password')
-            user = authenticate(username = email, password = passwd)
-            print(user)
+            user = authenticate(username = username, password = passwd)
             login(request,user)
             return redirect(dashboard)
         except AttributeError:
@@ -45,21 +45,97 @@ def dashboard(request):
     return HttpResponse(template.render(context,request))
 
 def officers(request):
-    currentUserId = request.user.id
-    if currentUserId == None : return redirect(notAuthorisedPage)
+    if isUserOfficerManager(request) == False : return redirect(notAuthorisedPage)
     template = loader.get_template('officers.html')
-    context = {} 
+    listOfDepartments = Department.objects.all()
+    listOfOfficers = UserDetails.objects.all()
+    context = {}
+    context["departments"] = listOfDepartments
+    context["officers"] = listOfOfficers
     return HttpResponse(template.render(context,request))
+ 
 
 def addOfficer(request):
-    pass
+    if isUserOfficerManager(request) == False : return redirect(notAuthorisedPage)
+    if request.method == 'POST':
+        try :
+            firstName = request.POST.get('officerName')
+            lastName = request.POST.get('officerSurname')
+            eMail = request.POST.get('officereMail')
+            username = request.POST.get('officerUsername')
+            badgeNumber = request.POST.get('officerBadgeNumber')
+            department = request.POST.get('department')
+            communities = request.POST.get('communities')
+            user = User()
+            user.username = username
+            user.first_name = firstName
+            user.last_name = lastName
+            user.set_password("default")
+            user.email = eMail
+            details = UserDetails()
+            details.user = user
+            details.badgeNumber = badgeNumber
+            details.department = Department.objects.get(departmentName = department)
+            user.save()
+            details.save()
+        except:
+            return redirect(officers(request))
+    
+    return redirect(officers)    
+
 
 def departments(request):
-    currentUserId = request.user.id
-    if currentUserId == None : return redirect(notAuthorisedPage)
+    if isUserOfficerManager(request) == False : return redirect(notAuthorisedPage)
     template = loader.get_template('departments.html')
     context = {} 
     return HttpResponse(template.render(context,request))
 
 def addDepartment(request):
+    if isUserDepartmentManager(request) == False : return redirect(notAuthorisedPage)
+
     pass
+
+
+def isUserOfficerManager(request):
+    #default piece of code for user autenthication on operation
+    currentUserId = request.user.id
+    if currentUserId == None : return False
+    try:
+        currentUser = User.objects.get(id = currentUserId)
+        #change parameter below to check for different privilege
+        if UserDetails.objects.get(user = currentUser).isOfficerManager:
+            #logic starts
+            return True
+            #logic ends
+    except ObjectDoesNotExist:
+        return False
+
+def isUserDepartmentManager(request):
+    #default piece of code for user autenthication on operation
+    currentUserId = request.user.id
+    if currentUserId == None : return False
+    try:
+        currentUser = User.objects.get(id = currentUserId)
+        #change parameter below to check for different privilege
+        if UserDetails.objects.get(user = currentUser).isDepartmentManager:
+            #logic starts
+            return True
+            #logic ends
+    except ObjectDoesNotExist:
+        return False
+
+def isUserEventManager(request):
+    #default piece of code for user autenthication on operation
+    currentUserId = request.user.id
+    if currentUserId == None : return False
+    try:
+        currentUser = User.objects.get(id = currentUserId)
+        #change parameter below to check for different privilege
+        if UserDetails.objects.get(user = currentUser).isEventManager:
+            #logic starts
+            return True
+            #logic ends
+    except ObjectDoesNotExist:
+        return False
+
+
