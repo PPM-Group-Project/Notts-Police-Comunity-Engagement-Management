@@ -1,11 +1,15 @@
-from django.shortcuts import render, redirect, loader
+#from django.shortcuts import render
+from django.shortcuts import redirect
+from django.shortcuts import loader
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
+#from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth.models import User
 
 
-
-
+def notAuthorisedPage(request):
+    return HttpResponse("You are not authorised to access this property!")
 
 def loginUser(request):
     template = loader.get_template('login.html')
@@ -25,7 +29,7 @@ def loginUser(request):
             print(user)
             login(request,user)
             return redirect(dashboard)
-        except:
+        except AttributeError:
             context["invalidLogin"] = True
             return HttpResponse(template.render(context,request))
     
@@ -40,17 +44,22 @@ def dashboard(request):
         return redirect(loginUser)
     return HttpResponse(template.render(context,request))
 
-def departments(request):
-    template = loader.get_template('departments.html')
-    context = {} 
-    return HttpResponse(template.render(context,request))
-
 def officers(request):
+    currentUserId = request.user.id
+    if currentUserId == None : return redirect(notAuthorisedPage)
     template = loader.get_template('officers.html')
     context = {} 
     return HttpResponse(template.render(context,request))
 
-def communities(request):
-    template = loader.get_template('communities.html')
-    context = {}
+def addOfficer(request):
+    pass
+
+def departments(request):
+    currentUserId = request.user.id
+    if currentUserId == None : return redirect(notAuthorisedPage)
+    template = loader.get_template('departments.html')
+    context = {} 
     return HttpResponse(template.render(context,request))
+
+def addDepartment(request):
+    pass

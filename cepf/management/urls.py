@@ -1,13 +1,13 @@
 from django.urls import path
 
-from . import views
+import views
 
 urlpatterns = [
+    path('', views.dashboard ),
     path('login/', views.loginUser),
     path('logout/', views.logoutUser),
-    path('dashboard/', views.dashboard ),
-    path('dashboard/officers/', views.officers),
-    path('dashboard/departments/', views.departments),
-    path('dashboard/communities',views.communities),
+    path('nonauthorised/',views.notAuthorisedPage),
+    path('officers/', views.officers),
+    path('departments/', views.departments),
 
 ]
