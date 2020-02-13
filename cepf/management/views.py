@@ -88,12 +88,29 @@ def departments(request):
     if isUserOfficerManager(request) == False : return redirect(notAuthorisedPage)
     template = loader.get_template('departments.html')
     context = {} 
+    context["officers"] = UserDetails.objects.all()
+    context ["departments"] = Department.objects.all()
+    for dep in context["departments"]:
+        x = Department.objects.get(id = dep.id)
+        dep.count = UserDetails.objects.filter(department = x).count()
+
     return HttpResponse(template.render(context,request))
 
 def addDepartment(request):
     if isUserDepartmentManager(request) == False : return redirect(notAuthorisedPage)
-
-    pass
+    if request.method =='POST':
+        try:
+            dep = Department()
+            dep.departmentName = request.POST.get('departmentName')
+            dep.responsibleOfficer = User.objects.get(id = request.POST.get('officerInCharge'))
+            dep.departmentDescription = request.POST.get('departmentDescription')
+            if request.POST.get('isOfficerManager') : dep.isOfficerManager = True
+            if request.POST.get('isDepartmentManager') : dep.isDepartmentManager = True
+            if request.POST.get('isEventManager') : dep.isEventManager = True
+            dep.save()
+        except:
+            return redirect(departments)
+    return redirect(departments)
 
 
 def isUserOfficerManager(request):

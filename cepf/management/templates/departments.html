@@ -1,6 +1,5 @@
 {% extends 'static.html' %}
 {% block title%} Departments {% endblock %}
-
 {% block content %}
 <div class="row">
   <div class="col-sm-12 col-md-4 ">
@@ -11,52 +10,55 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <form role="form">
+        <form role="form" method="POST" action="/departments/add">
+          {% csrf_token %}
           <div class="row">
             <div class="col-12">
               <!-- text input -->
               <div class="form-group">
                 <label>Department name</label>
-                <input type="text" id="officerName" class="form-control" placeholder="Enter ...">
+                <input type="text" name="departmentName" class="form-control" placeholder="Enter ..." required>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
                 <label>Officer in charge</label>
-                <select class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
+                <select class="form-control" name="officerInCharge">
+                  {% if officers %} 
+                  {% for o in officers %}
+                  <option value={{o.id}}>{{o.user.first_name}} {{o.user.last_name}}</option>
+                  {% endfor %}
+                  {% endif %}
                 </select>
               </div>
             </div>
 
-            
-
+            <div class="col-12">
+              <div class="form-group">
+                <label>Department Description</label>
+                <textarea name="departmentDescription" class="form-control" rows="3" placeholder="Enter ..." required></textarea>
+              </div>
+            </div>
           </div>
           <div class="row">
-
             <div class="col-12">
               <div class="form-group">
                 <label>Roles</label>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox">
+                  <input name="isOfficerManager" class="form-check-input" type="checkbox">
                   <label class="form-check-label">Officer manager</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox">
+                  <input name="isDepartmentManager" class="form-check-input" type="checkbox">
                   <label class="form-check-label">Department manager</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox">
+                  <input name="isEventManager" class="form-check-input" type="checkbox">
                   <label class="form-check-label">Event manager</label>
                 </div>
               </div>
             </div>
           </div>
-
       </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-info">Add officer</button>
@@ -65,53 +67,61 @@
       </form>
     </div>
   </div>
-
   <div class="col-8">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Departments</h3>
-
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
             <div class="input-group-append">
-              <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+              <button type="submit" class="btn btn-default"><i class="fas fa-search"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <!-- /.card-header -->
-      <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-          <thead>
-            <tr>
-              <th>Department Name</th>
-              <th>Responsible Officer</th>
-              <th>Roles</th>
-              <th>Number of officers</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>183</td>
-              <td>John Doe</td>
-              <td>11-7-2014</td>
-              <td>8645</td>
-            </tr>
-
-          </tbody>
-        </table>
+      <div >
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover text-nowrap">
+            <thead>
+              <tr>
+                <th>Department Name</th>
+                <th>Officer Roles</th>
+                <th>Responsible Officer</th>
+                <th>Number of officers</th>
+              </tr>
+            </thead>
+            <tbody>{% if departments %} {% for dep in departments %}
+              <tr>
+                <td>{{dep.departmentName}}</td>
+                <td>
+                  {% if dep.isOfficerManager %} 
+                  Officer Manager
+                  <br>
+                  {% endif %}
+                  {% if dep.isDepartmentManager %} 
+                  Department Manager
+                  <br>
+                  {% endif %}
+                  {% if dep.isEventManager %} 
+                  Event Manager
+                  <br>
+                  {% endif %}
+                </td>
+                <td>{{dep.responsibleOfficer.first_name}} {{dep.responsibleOfficer.last_name}}</td>
+                <td>{{dep.count}}</td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
       </div>
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
   </div>
 </div>
-
-
-
-
-
 {% endblock %}

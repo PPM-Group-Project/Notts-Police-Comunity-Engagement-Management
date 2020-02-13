@@ -10,5 +10,6 @@ urlpatterns = [
     path('officers/', views.officers),
     path('officers/add',views.addOfficer),
     path('departments/', views.departments),
+    path('departments/add', views.addDepartment),
 
 ]

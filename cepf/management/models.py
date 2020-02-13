@@ -15,6 +15,10 @@ class Department(models.Model):
     isDepartmentManager = models.BooleanField(default=False)
     isEventManager = models.BooleanField(default=False)
 
+
+
+
+
 class UserDetails(models.Model):
     # User object from django.contrib.auth.models
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
