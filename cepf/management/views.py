@@ -117,6 +117,8 @@ def addDepartment(request):
             if request.POST.get('isDepartmentManager'):
                 dep.isDepartmentManager = True
             if request.POST.get('isEventManager'):
+                dep.isCommunityManager = True
+            if request.POST.get('isEventManager'):
                 dep.isEventManager = True
             dep.save()
         except:
