@@ -9,7 +9,9 @@
     width: 100%;
 }
 
-.change-list .hiddenfields { display:none; }
+.change-list .hiddenfields {
+    display: none;
+}
 
 .change-list .filtered table {
     border-right: none;
@@ -19,8 +21,7 @@
     min-height: 400px;
 }
 
-.change-list .filtered .results, .change-list .filtered .paginator,
-.filtered #toolbar, .filtered div.xfull {
+.change-list .filtered .results, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull {
     margin-right: 280px;
     width: auto;
 }
@@ -30,7 +31,7 @@
 }
 
 #changelist-form .results {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 #changelist .toplinks {
@@ -108,8 +109,7 @@
     color: #333;
 }
 
-#changelist #toolbar form input[type="submit"]:focus,
-#changelist #toolbar form input[type="submit"]:hover {
+#changelist #toolbar form input[type="submit"]:focus, #changelist #toolbar form input[type="submit"]:hover {
     border-color: #999;
 }
 
@@ -181,9 +181,7 @@
     color: #5b80b2;
 }
 
-#changelist-filter a:focus, #changelist-filter a:hover,
-#changelist-filter li.selected a:focus,
-#changelist-filter li.selected a:hover {
+#changelist-filter a:focus, #changelist-filter a:hover, #changelist-filter li.selected a:focus, #changelist-filter li.selected a:hover {
     color: #036;
 }
 
@@ -208,8 +206,7 @@
     color: #999;
 }
 
-.change-list ul.toplinks .date-back a:focus,
-.change-list ul.toplinks .date-back a:hover {
+.change-list ul.toplinks .date-back a:focus, .change-list ul.toplinks .date-back a:hover {
     color: #036;
 }
 
@@ -290,10 +287,7 @@
     border-bottom: 1px solid #edecd6;
 }
 
-#changelist .actions span.all,
-#changelist .actions span.action-counter,
-#changelist .actions span.clear,
-#changelist .actions span.question {
+#changelist .actions span.all, #changelist .actions span.action-counter, #changelist .actions span.clear, #changelist .actions span.question {
     font-size: 13px;
     margin: 0 0.5em;
     display: none;

@@ -47,8 +47,7 @@
     text-align: left;
 }
 
-.selector .selector-filter label,
-.inline-group .aligned .selector .selector-filter label {
+.selector .selector-filter label, .inline-group .aligned .selector .selector-filter label {
     float: left;
     margin: 7px 0 0;
     width: 18px;
@@ -131,8 +130,7 @@ a.selector-chooseall, a.selector-clearall {
     opacity: 0.3;
 }
 
-a.active.selector-chooseall:focus, a.active.selector-clearall:focus,
-a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
+a.active.selector-chooseall:focus, a.active.selector-clearall:focus, a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
     color: #447e9b;
 }
 
@@ -286,8 +284,7 @@ table p.datetime {
     background: url(../img/icon-clock.svg) 0 0 no-repeat;
 }
 
-.datetimeshortcuts a:focus .clock-icon,
-.datetimeshortcuts a:hover .clock-icon {
+.datetimeshortcuts a:focus .clock-icon, .datetimeshortcuts a:hover .clock-icon {
     background-position: 0 -16px;
 }
 
@@ -296,8 +293,7 @@ table p.datetime {
     top: -1px;
 }
 
-.datetimeshortcuts a:focus .date-icon,
-.datetimeshortcuts a:hover .date-icon {
+.datetimeshortcuts a:focus .date-icon, .datetimeshortcuts a:hover .date-icon {
     background-position: 0 -16px;
 }
 
@@ -433,8 +429,7 @@ span.clearable-file-input label {
     color: #444;
 }
 
-.calendar td a:focus, .timelist a:focus,
-.calendar td a:hover, .timelist a:hover {
+.calendar td a:focus, .timelist a:focus, .calendar td a:hover, .timelist a:hover {
     background: #79aec8;
     color: white;
 }
@@ -452,8 +447,7 @@ span.clearable-file-input label {
     padding: 1px 3px;
 }
 
-.calendarnav a:link, #calendarnav a:visited,
-#calendarnav a:focus, #calendarnav a:hover {
+.calendarnav a:link, #calendarnav a:visited, #calendarnav a:focus, #calendarnav a:hover {
     color: #999;
 }
 
@@ -481,8 +475,7 @@ span.clearable-file-input label {
     background: url(../img/calendar-icons.svg) 0 0 no-repeat;
 }
 
-.calendarbox .calendarnav-previous:focus,
-.calendarbox .calendarnav-previous:hover {
+.calendarbox .calendarnav-previous:focus, .calendarbox .calendarnav-previous:hover {
     background-position: 0 -15px;
 }
 
@@ -491,8 +484,7 @@ span.clearable-file-input label {
     background: url(../img/calendar-icons.svg) 0 -30px no-repeat;
 }
 
-.calendarbox .calendarnav-next:focus,
-.calendarbox .calendarnav-next:hover {
+.calendarbox .calendarnav-next:focus, .calendarbox .calendarnav-next:hover {
     background-position: 0 -45px;
 }
 
@@ -540,9 +532,12 @@ ul.timelist, .timelist li {
 }
 
 /* RELATED WIDGET WRAPPER */
+
 .related-widget-wrapper {
-    float: left;       /* display properly in form rows with multiple fields */
-    overflow: hidden;  /* clear floated contents */
+    float: left;
+    /* display properly in form rows with multiple fields */
+    overflow: hidden;
+    /* clear floated contents */
 }
 
 .related-widget-wrapper-link {
@@ -553,12 +548,10 @@ ul.timelist, .timelist li {
     opacity: .8;
 }
 
-.related-widget-wrapper-link:link:focus,
-.related-widget-wrapper-link:link:hover {
+.related-widget-wrapper-link:link:focus, .related-widget-wrapper-link:link:hover {
     opacity: 1;
 }
 
-select + .related-widget-wrapper-link,
-.related-widget-wrapper-link + .related-widget-wrapper-link {
+select+.related-widget-wrapper-link, .related-widget-wrapper-link+.related-widget-wrapper-link {
     margin-left: 7px;
 }

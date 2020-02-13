@@ -5,38 +5,38 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Notts Police | {% block title %} {% endblock %}</title>
-  <!-- Tell the browser to be responsive to screen width -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
-  <!-- Ionicons -->
+
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.2/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
+
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
   {% block head %} {% endblock %}
 </head>
 
 <body class="hold-transition sidebar-mini">
-  <div class="wrapper">
-    <!-- Navbar -->
+  <div class="wra pper">
 
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
+
+
+
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
 
-      <!-- Sidebar -->
+
+
       <div class="sidebar">
-        <!-- Sidebar user (optional) -->
+
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="info">
             <a href="/" class="d-block">{{request.user.first_name}} {{request.user.last_name}}</a>
           </div>
         </div>
-        <!-- Sidebar Menu -->
+
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
@@ -49,6 +49,8 @@
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
+              {{ permissions.isOfficerManager}}
+              {% if permissions.isOfficerManager %}
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="/officers" class="nav-link">
@@ -57,6 +59,7 @@
                   </a>
                 </li>
               </ul>
+              {% endif %}
             </li>
             <li class="nav-item">
               <a href="/departments" class="nav-link">
@@ -72,38 +75,38 @@
             </li>
 
         </nav>
-        <!-- /.sidebar-menu -->
+
       </div>
-      <!-- /.sidebar -->
+
     </aside>
-    <!-- Content Wrapper. Contains page content -->
+
     <div class="content-wrapper">
-      <!-- Main content -->
+
       <section class="content">
         <div class="container-fluid pt-1">
           {% block content %} {% endblock %}
         </div>
-        <!-- /.card -->
+
       </section>
-      <!-- /.content -->
+
     </div>
-    <!-- /.content-wrapper -->
+
     <footer class="main-footer">
     </footer>
-    <!-- Control Sidebar -->
+
     <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
+
     </aside>
-    <!-- /.control-sidebar -->
+
   </div>
-  <!-- ./wrapper -->
-  <!-- jQuery -->
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
+
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
     integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
     crossorigin="anonymous"></script>
-  <!-- AdminLTE App -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.2/js/adminlte.min.js"></script>
   {% block body %} {% endblock %}
 </body>

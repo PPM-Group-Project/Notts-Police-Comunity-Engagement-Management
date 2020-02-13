@@ -1,44 +1,93 @@
-
-
 {% extends 'static.html' %}
 {% block title%} Officers {% endblock %}
-
+{% block sidebar %}
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+  <!-- Add icons to the links using the .nav-icon class
+      with font-awesome or any other icon font library -->
+  {% if permissions.isOfficerManager %}
+  <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-table"></i>
+      <p>
+        Officers
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a href="/officers" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>All officers</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  {% endif %}
+  {% if permissions.isDepartmentManager %}
+  <li class="nav-item">
+    <a href="/departments" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Departments</p>
+    </a>
+  </li>
+  {% endif %}
+  {% if permissions.isCommunityManager %}
+  <li class="nav-item">
+    <a href="/communities" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Communities</p>
+    </a>
+  </li>
+  {% endif %}
+  {% if permissions.isEventManager %}
+  <li class="nav-item">
+    <a href="/events" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Events</p>
+    </a>
+  </li>
+  {% endif %}
+</ul>
+{% endblock %}
 {% block content %}
-<div class="row mb-2">
-  <div class="col-sm-12 col-md-6 ">
-    <!-- general form elements disabled -->
+<div class="row">
+  <div class="col-3">
+
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Add officer</h3>
       </div>
-      <!-- /.card-header -->
+
       <div class="card-body">
         <form role="form" action="/officers/add" method="POST">
           {% csrf_token %}
           <div class="row">
             <div class="col-sm-12">
-              <!-- text input -->
+
               <div class="form-group">
                 <label>Officer name</label>
-                <input type="text" id="officerName" name="officerName" class="form-control" placeholder="Enter ..." required>
+                <input type="text" id="officerName" name="officerName" class="form-control" placeholder="Enter ..."
+                  required>
               </div>
             </div>
             <div class="col-sm-12">
               <div class="form-group">
                 <label>Officer surname</label>
-                <input type="text" id="officerSurname" name="officerSurname" class="form-control" placeholder="Enter ..." required>
+                <input type="text" id="officerSurname" name="officerSurname" class="form-control"
+                  placeholder="Enter ..." required>
               </div>
             </div>
             <div class="col-sm-7">
               <div class="form-grou\sp">
                 <label>Work eMail</label>
-                <input type="eMail" id="officereMail" name="officereMail" class="form-control" placeholder="Enter ..." required>
+                <input type="eMail" id="officereMail" name="officereMail" class="form-control" placeholder="Enter ..."
+                  required>
               </div>
             </div>
             <div class="col-sm-5">
               <div class="form-group">
                 <label>Username</label>
-                <input id="officerUsername" name ="officerUsername" class="form-control" >
+                <input id="officerUsername" name="officerUsername" class="form-control">
               </div>
             </div>
           </div>
@@ -46,19 +95,20 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Badge number</label>
-                <input type="text" id="officerBadgeNumber" name = "officerBadgeNumber" class="form-control" placeholder="Enter ..." required>
+                <input type="text" id="officerBadgeNumber" name="officerBadgeNumber" class="form-control"
+                  placeholder="Enter ..." required>
               </div>
             </div>
 
             <div class="col-sm-6">
-              <!-- select -->
+
               <div class="form-group">
                 <label>Department</label>
                 <select class="form-control" name="department">
                   <option>None</option>
                   {% if departments %}
                   {% for dep in departments %}
-                  <option>{{dep.departmentName}}</option>
+                  <option value="{{dep.id}}">{{dep.departmentName}}</option>
                   {% endfor %}
                   {% endif %}
 
@@ -68,7 +118,7 @@
           </div>
           <div class="row">
             <div class="col-sm-6">
-              <!-- Select multiple-->
+
               <div class="form-group">
                 <label>In charge of</label>
                 <select multiple class="form-control" name="communities">
@@ -82,13 +132,13 @@
             </div>
           </div>
 
-            {% if addOfficerError %}
-            <div class="row">
-              <div class="col-12">
-                <p style="color: red;">Error adding officer,please check details</p>
-              </div>
+          {% if addOfficerError %}
+          <div class="row">
+            <div class="col-12">
+              <p style="color: red;">Error adding officer,please check details</p>
             </div>
-            {% endif %}
+          </div>
+          {% endif %}
       </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-info">Add officer</button>
@@ -97,48 +147,13 @@
       </form>
     </div>
   </div>
-  <div class="col-sm-12 col-md-6 ">
-
-    <!-- DONUT CHART -->
-    <div class="card card-danger" style="height: 310.5px;">
-      <div class="card-header">
-        <h3 class="card-title">Officers per department</h3>
-
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body">
-        <canvas id="donutChart" style="max-width: 100%;"></canvas>
-      </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-
-    <!-- DONUT CHART -->
-    <div class="card card-danger" style="height: 310.5px">
-      <div class="card-header">
-        <h3 class="card-title">Officers per community</h3>
-
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body">
-        <canvas id="donutChart2" style=" height: 200px; max-width: 100%;"></canvas>
-      </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-  </div>
-</div>
-
-<div class="row mb-2">
-  <div class="col-12">
+  <div class="col-6">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Officers</h3>
 
         <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 150px;">
+          <div class="input-group input-group-sm">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
             <div class="input-group-append">
@@ -147,7 +162,7 @@
           </div>
         </div>
       </div>
-      <!-- /.card-header -->
+
       <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
           <thead>
@@ -169,17 +184,49 @@
             </tr>
             {% endfor %}
             {% endif %}
-    
+
 
           </tbody>
         </table>
       </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-  </div>
 
+    </div>
+
+  </div>
+  <div class="col-3 ">
+
+
+    <div class="card card-danger" style="height: 310.5px;">
+      <div class="card-header">
+        <h3 class="card-title">Officers per department</h3>
+
+        <div class="card-tools">
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="donutChart" style="max-width: 100%;"></canvas>
+      </div>
+
+    </div>
+
+
+
+    <div class="card card-danger" style="height: 310.5px">
+      <div class="card-header">
+        <h3 class="card-title">Officers per community</h3>
+
+        <div class="card-tools">
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="donutChart2" style=" height: 200px; max-width: 100%;"></canvas>
+      </div>
+
+    </div>
+
+  </div>
 </div>
+
 
 {% endblock %}
 
@@ -195,7 +242,7 @@
     if (text.includes("@") === false) {
       document.getElementById('officerUsername').value = text;
     }
-    else{
+    else {
       document.getElementById('officerUsername').value = text.split('@')[0];
 
     }

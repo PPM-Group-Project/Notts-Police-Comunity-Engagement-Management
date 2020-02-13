@@ -1,20 +1,69 @@
 {% extends 'static.html' %}
 {% block title%} Departments {% endblock %}
+{% block sidebar %}
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+  <!-- Add icons to the links using the .nav-icon class
+      with font-awesome or any other icon font library -->
+  {% if permissions.isOfficerManager %}
+  <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-table"></i>
+      <p>
+        Officers
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a href="/officers" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>All officers</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  {% endif %}
+  {% if permissions.isDepartmentManager %}
+  <li class="nav-item">
+    <a href="/departments" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Departments</p>
+    </a>
+  </li>
+  {% endif %}
+  {% if permissions.isCommunityManager %}
+  <li class="nav-item">
+    <a href="/communities" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Communities</p>
+    </a>
+  </li>
+  {% endif %}
+  {% if permissions.isEventManager %}
+  <li class="nav-item">
+    <a href="/events" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Events</p>
+    </a>
+  </li>
+  {% endif %}
+</ul>
+{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-sm-12 col-md-4 ">
-    <!-- general form elements disabled -->
+
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Add department</h3>
       </div>
-      <!-- /.card-header -->
+
       <div class="card-body">
         <form role="form" method="POST" action="/departments/add">
           {% csrf_token %}
           <div class="row">
             <div class="col-12">
-              <!-- text input -->
+
               <div class="form-group">
                 <label>Department name</label>
                 <input type="text" name="departmentName" class="form-control" placeholder="Enter ..." required>
@@ -24,7 +73,7 @@
               <div class="form-group">
                 <label>Officer in charge</label>
                 <select class="form-control" name="officerInCharge">
-                  {% if officers %} 
+                  {% if officers %}
                   {% for o in officers %}
                   <option value={{o.id}}>{{o.user.first_name}} {{o.user.last_name}}</option>
                   {% endfor %}
@@ -32,11 +81,11 @@
                 </select>
               </div>
             </div>
-
             <div class="col-12">
               <div class="form-group">
                 <label>Department Description</label>
-                <textarea name="departmentDescription" class="form-control" rows="3" placeholder="Enter ..." required></textarea>
+                <textarea name="departmentDescription" class="form-control" rows="3" placeholder="Enter ..."
+                  required></textarea>
               </div>
             </div>
           </div>
@@ -81,8 +130,8 @@
           </div>
         </div>
       </div>
-      <!-- /.card-header -->
-      <div >
+
+      <div>
         <div class="card-body table-responsive p-0">
           <table class="table table-hover text-nowrap">
             <thead>
@@ -97,15 +146,19 @@
               <tr>
                 <td>{{dep.departmentName}}</td>
                 <td>
-                  {% if dep.isOfficerManager %} 
+                  {% if dep.isOfficerManager %}
                   Officer Manager
                   <br>
                   {% endif %}
-                  {% if dep.isDepartmentManager %} 
+                  {% if dep.isDepartmentManager %}
                   Department Manager
                   <br>
                   {% endif %}
-                  {% if dep.isEventManager %} 
+                  {% if dep.isCommunityManager %}
+                  Community Manager
+                  <br>
+                  {% endif %}
+                  {% if dep.isEventManager %}
                   Event Manager
                   <br>
                   {% endif %}
@@ -119,9 +172,9 @@
           </table>
         </div>
       </div>
-      <!-- /.card-body -->
+
     </div>
-    <!-- /.card -->
+
   </div>
 </div>
 {% endblock %}

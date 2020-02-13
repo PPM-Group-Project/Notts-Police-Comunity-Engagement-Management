@@ -1,6 +1,54 @@
 {% extends 'static.html' %}
 {% block title%} Officers {% endblock %}
-
+{% block sidebar %}
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+  <!-- Add icons to the links using the .nav-icon class
+      with font-awesome or any other icon font library -->
+  {% if permissions.isOfficerManager %}
+  <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-table"></i>
+      <p>
+        Officers
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a href="/officers" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>All officers</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  {% endif %}
+  {% if permissions.isDepartmentManager %}
+  <li class="nav-item">
+    <a href="/departments" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Departments</p>
+    </a>
+  </li>
+  {% endif %}
+  {% if permissions.isCommunityManager %}
+  <li class="nav-item">
+    <a href="/communities" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Communities</p>
+    </a>
+  </li>
+  {% endif %}
+  {% if permissions.isEventManager %}
+  <li class="nav-item">
+    <a href="/events" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Events</p>
+    </a>
+  </li>
+  {% endif %}
+</ul>
+{% endblock %}
 {% block content %}
 
 <div class="row">
@@ -8,8 +56,8 @@
     <div class="card card-primary card-outline">
       <div class="card-body box-profile">
         <div class="text-center">
-         <!-- <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg"
-            alt="User profile picture">-->
+          <!-- <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg"
+            alt="User profile picture"> -->
         </div>
 
         <h3 class="profile-username text-center">{{request.user.first_name}} {{request.user.last_name}}</h3>
@@ -25,14 +73,14 @@
           </li>
         </ul>
       </div>
-      <!-- /.card-body -->
+
     </div>
 
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Details</h3>
       </div>
-      <!-- /.card-header -->
+
       <div class="card-body">
         <strong><i class="fas fa-book mr-1"></i> Roles</strong>
 
@@ -64,7 +112,7 @@
 
         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
       </div>
-      <!-- /.card-body -->
+
     </div>
 
 

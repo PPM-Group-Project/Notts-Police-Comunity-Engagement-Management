@@ -19,21 +19,26 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('departmentName', models.CharField(default='', max_length=100)),
-                ('departmentDescription', models.CharField(default='', max_length=255)),
+                ('departmentDescription', models.CharField(
+                    default='', max_length=255)),
                 ('isOfficerManager', models.BooleanField(default=False)),
                 ('isDepartmentManager', models.BooleanField(default=False)),
                 ('isEventManager', models.BooleanField(default=False)),
-                ('responsibleOfficer', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('responsibleOfficer', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='UserDetails',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('badgeNumber', models.CharField(default='', max_length=100)),
                 ('communities', models.CharField(default='', max_length=100)),
-                ('department', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='management.Department')),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('department', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='management.Department')),
+                ('user', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

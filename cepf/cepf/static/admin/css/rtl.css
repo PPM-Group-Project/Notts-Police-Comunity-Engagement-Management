@@ -51,8 +51,7 @@ th {
     float: left;
 }
 
-thead th:first-child,
-tfoot td:first-child {
+thead th:first-child, tfoot td:first-child {
     border-left: none;
 }
 
@@ -86,7 +85,7 @@ div.breadcrumbs {
 /* SORTABLE TABLES */
 
 table thead th.sorted .sortoptions {
-   float: left;
+    float: left;
 }
 
 thead th.sorted .text {
@@ -250,7 +249,7 @@ form .form-row p.datetime {
     padding-left: inherit;
     left: 10px;
     right: inherit;
-    float:left;
+    float: left;
 }
 
 .inline-related h3 span.delete label {
