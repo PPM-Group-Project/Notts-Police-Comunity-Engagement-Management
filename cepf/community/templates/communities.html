@@ -49,17 +49,18 @@
 {% block content %}
 <div class="row">
   <div class="col-4">
-    <div class="card card-warning">
+    <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Add community</h3>
+        <h3 class="card-title">Add department</h3>
       </div>
       <div class="card-body">
-        <div role="form">
+        <form role="form" method="POST" action="/communities/add">
+          {% csrf_token %}
           <div class="row">
             <div class="col-12">
               <div class="form-group">
                 <label>Community name</label>
-                <input name="communityName" type="text" class="form-control" placeholder="Enter ...">
+                <input name="communityName" type="text" class="form-control" placeholder="Enter ..." required>
               </div>
             </div>
           </div>
@@ -67,13 +68,15 @@
             <div class="col-6">
               <div class="form-group">
                 <label>Description</label>
-                <textarea name="commnityDescription" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                <textarea name="communityDescription" class="form-control" rows="3" placeholder="Enter ..."
+                  required></textarea>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label>Community address</label>
-                <textarea name="communityAddress" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                <textarea name="communityAddress" class="form-control" rows="3" placeholder="Enter ..."
+                  required></textarea>
               </div>
             </div>
           </div>
@@ -81,48 +84,69 @@
             <div class="col-6">
               <div class="form-group">
                 <label>Event frequency</label>
-                <select name="communityFrequency" class="form-control">
-                  <option>Monthly</option>
-                  <option>Quarterly</option>
-                  <option>Semiannually</option>
-                  <option>Annually</option>
-                  <option>On request</option>
+                <select name="communityFrequency" class="form-control" required>
+                  <option value="12">Monthly</option>
+                  <option value="4">Quarterly</option>
+                  <option value="3">Semiannually</option>
+                  <option value="1">Annually</option>
+                  <option value="0">On request</option>
                 </select>
               </div>
             </div>
             <div class="col-6">
-              <div class="col-12">
-                <div class="form-group">
-                  <label>Community representative details</label><br>
-                  <label>First name</label>
-                  <input name="communityRepresentativeFirstName" type="text" class="form-control"
-                    placeholder="Enter ...">
+              <div class="form-group">
+                <label>Engagement start:</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                  </div>
+                  <input type="date" name="communityStart" class="form-control" />
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label>Last name</label>
-                  <input name="communityRepresentativeLastName" type="text" class="form-control"
-                    placeholder="Enter ...">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label>Address</label>
-                  <textarea name="communityRepresentativeAddress" class="form-control" rows="3"
-                    placeholder="Enter ..."></textarea>
-                </div>
+                <!-- /.input group -->
               </div>
             </div>
           </div>
-        </div>
-        </form>
+          <div class="row">
+            <div class="col-12">
+              <label>Community Representative details</label>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>First name</label>
+                <input name="communityRepresentativeFirstName" type="text" class="form-control" placeholder="Enter ..."
+                  required>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Last name</label>
+                <input name="communityRepresentativeLastName" type="text" class="form-control" placeholder="Enter ..."
+                  required>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label>eMail</label>
+                <input name="communityRepresentativeEMail" type="email" class="form-control" placeholder="Enter ..."
+                  required>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label>Address</label>
+                <textarea name="communityRepresentativeAddress" class="form-control" rows="3" placeholder="Enter ..."
+                  required></textarea>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="card-footer">
-        <button type="submit" class="btn btn-info">Add officer</button>
-       </div>
+        <button type="submit" class="btn btn-info">Add community</button>
+      </div>
+      </form>
     </div>
   </div>
+
   <div class="col-8">
     <div class="card">
       <div class="card-header">
@@ -137,7 +161,6 @@
           </div>
         </div>
       </div>
-
       <div>
         <div class="card-body table-responsive p-0">
           <table class="table table-hover text-nowrap">
@@ -145,13 +168,21 @@
               <tr>
                 <th>Community Name</th>
                 <th>Community address</th>
-                <th>Number of events</th>
                 <th>Event frequency</th>
-                <th>Representative details</th>
-
+                <th>Representative</th>
               </tr>
             </thead>
             <tbody>
+              {% if community %}
+              <tr>
+                  {% for c in community%}
+                  <td>{{c.name}}</td>
+                  <td>{{c.address}}</td>
+                  <td>{{c.frequency}}</td>
+                  <td>{{c.representative.firstName}} {{c.representative.lastName}}</td>
+                  {% endfor %}
+              </tr>
+              {% endif %}
 
             </tbody>
           </table>

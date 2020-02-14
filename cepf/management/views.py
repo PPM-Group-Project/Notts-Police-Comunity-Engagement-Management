@@ -1,10 +1,9 @@
-#from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import loader
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ObjectDoesNotExist
-#from django.contrib.auth.forms import UserCreationForm
+
 from .models import UserDetails, Department
 from django.contrib.auth.models import User
 

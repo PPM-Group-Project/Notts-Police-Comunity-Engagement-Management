@@ -23,8 +23,7 @@ class UserDetails(models.Model):
     # User object from django.contrib.auth.models
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     # department that officer is part of, declared above
-    department = models.ForeignKey(
-        Department, on_delete=models.CASCADE, null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     # additional user details for the officer
     badgeNumber = models.CharField(max_length=20, default="")
     # communities that the officer is in charge
