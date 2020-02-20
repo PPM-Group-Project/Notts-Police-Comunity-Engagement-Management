@@ -55,6 +55,7 @@ def officers(request):
     listOfOfficers = UserDetails.objects.all()
     context = {}
     context["permissions"] = getAuthsForUser(request)
+    print(context["permissions"]);
     context["departments"] = listOfDepartments
     context["officers"] = listOfOfficers
     return HttpResponse(template.render(context, request))
@@ -115,7 +116,7 @@ def addDepartment(request):
                 dep.isOfficerManager = True
             if request.POST.get('isDepartmentManager'):
                 dep.isDepartmentManager = True
-            if request.POST.get('isEventManager'):
+            if request.POST.get('isCommunityManager'):
                 dep.isCommunityManager = True
             if request.POST.get('isEventManager'):
                 dep.isEventManager = True
@@ -133,7 +134,7 @@ def isUserOfficerManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isOfficerManager:
+        if UserDetails.objects.get(user=currentUser).department.isOfficerManager:
             # logic starts
             return True
             # logic ends
@@ -149,7 +150,7 @@ def isUserDepartmentManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isDepartmentManager:
+        if UserDetails.objects.get(user=currentUser).department.isDepartmentManager:
             # logic starts
             return True
             # logic ends
@@ -165,7 +166,7 @@ def isUserEventManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isEventManager:
+        if UserDetails.objects.get(user=currentUser).department.isEventManager:
             # logic starts
             return True
             # logic ends
@@ -181,7 +182,7 @@ def isUserCommunityManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isCommunityManager:
+        if UserDetails.objects.get(user=currentUser).department.isCommunityManager:
             # logic starts
             return True
             # logic ends
