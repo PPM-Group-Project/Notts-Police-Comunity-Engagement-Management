@@ -1,50 +1,43 @@
 {% extends 'static.html' %}
 {% block title%} Departments {% endblock %}
 {% block sidebar %}
-<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-  <!-- Add icons to the links using the .nav-icon class
-      with font-awesome or any other icon font library -->
-  {% if permissions.isOfficerManager %}
-  <li class="nav-item has-treeview">
-    <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-table"></i>
-      <p>
-        Officers
-        <i class="fas fa-angle-left right"></i>
-      </p>
+{% if permissions.isOfficerManager %}
+<div>
+  <li class="nav-item">
+    <a href="/officers" class="nav-link">
+      <i class="fas fa-user-friends"></i>
+      <p>Officers</p>
     </a>
-    <ul class="nav nav-treeview">
-      <li class="nav-item">
-        <a href="/officers" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>All officers</p>
-        </a>
-      </li>
-    </ul>
   </li>
   {% endif %} {% if permissions.isDepartmentManager %}
   <li class="nav-item">
     <a href="/departments" class="nav-link">
-      <i class="nav-icon fas fa-th"></i>
+      <i class="fas fa-building"></i>
       <p>Departments</p>
     </a>
   </li>
   {% endif %} {% if permissions.isCommunityManager %}
   <li class="nav-item">
     <a href="/communities" class="nav-link">
-      <i class="nav-icon fas fa-th"></i>
+      <i class="nav-icon fas fa-handshake"></i>
       <p>Communities</p>
     </a>
   </li>
   {% endif %} {% if permissions.isEventManager %}
   <li class="nav-item">
     <a href="/events" class="nav-link">
-      <i class="nav-icon fas fa-th"></i>
+      <i class="fas fa-calendar-plus"></i>
       <p>Events</p>
     </a>
   </li>
   {% endif %}
-</ul>
+  <li class="nav-item">
+    <a href="/myevents" class="nav-link">
+      <i class="fas fa-calendar-alt"></i>
+      <p>My events</p>
+    </a>
+  </li>
+</div>
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -109,7 +102,7 @@
       </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-info">Add officer</button>
-       </div>
+      </div>
       </form>
     </div>
   </div>
@@ -169,9 +162,7 @@
           </table>
         </div>
       </div>
-
     </div>
-
   </div>
 </div>
 {% endblock %}

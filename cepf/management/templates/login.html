@@ -5,31 +5,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>NottsPolice | Log in</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
-
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icheck-bootstrap@3.0.1/icheck-bootstrap.min.css">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.2/css/adminlte.min.css">
-
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
       <a href="../../index2.html"><b>Nottingham Police</b> <br> Community engagement</a>
     </div>
-
     <div class="card">
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
-
         <form action="" method="post">
           {% csrf_token %}
           <div class="input-group mb-3">
@@ -48,44 +38,29 @@
               </div>
             </div>
           </div>
-
           {% if invalidLogin %}
           <div class="row">
             <div cla></div>
             <p style="color: red;">Invalid login details,please try again</p>
           </div>
           {% endif %}
-
           <div class="row">
-
-
             <div class="col-12">
               <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             </div>
-
           </div>
         </form>
-
         <br>
         <p class="col-12 ">
           <a href="forgot-password.html">I forgot my password</a>
         </p>
-
       </div>
-
     </div>
   </div>
-
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
     integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
     crossorigin="anonymous"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.2/js/adminlte.min.js"></script>
-
 </body>
-
 </html>

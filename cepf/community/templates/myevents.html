@@ -1,0 +1,37 @@
+{% extends 'static.html' %}
+{% block title%} Communities {% endblock %}
+{% if permissions.isOfficerManager %}
+<div>
+  <li class="nav-item">
+    <a href="/officers" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Officers</p>
+    </a>
+  </li>
+  {% endif %} {% if permissions.isDepartmentManager %}
+  <li class="nav-item">
+    <a href="/departments" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Departments</p>
+    </a>
+  </li>
+  {% endif %} {% if permissions.isCommunityManager %}
+  <li class="nav-item">
+    <a href="/communities" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Communities</p>
+    </a>
+  </li>
+  {% endif %} {% if permissions.isEventManager %}
+  <li class="nav-item">
+    <a href="/events" class="nav-link">
+      <i class="nav-icon fas fa-th"></i>
+      <p>Events</p>
+    </a>
+  </li>
+  {% endif %}
+</div>
+{% endblock %}
+{% block content %}
+
+{ % endblock % }
