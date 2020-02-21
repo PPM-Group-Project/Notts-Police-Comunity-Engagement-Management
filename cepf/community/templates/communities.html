@@ -41,10 +41,10 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-4">
+  <div class="col-6">
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Add department</h3>
+        <h3 class="card-title">Add community</h3>
       </div>
       <div class="card-body">
         <form role="form" method="POST" action="/communities/add">
@@ -80,7 +80,7 @@
                 <select name="communityFrequency" class="form-control" required>
                   <option value="12">Monthly</option>
                   <option value="4">Quarterly</option>
-                  <option value="3">Semiannually</option>
+                  <option value="2">Semiannually</option>
                   <option value="1">Annually</option>
                   <option value="0">On request</option>
                 </select>
@@ -94,6 +94,18 @@
                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                   </div>
                   <input type="date" name="communityStart" class="form-control" />
+                </div>
+                <!-- /.input group -->
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Engagement end:</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                  </div>
+                  <input type="date" name="communityStop" class="form-control" />
                 </div>
                 <!-- /.input group -->
               </div>
@@ -139,7 +151,7 @@
       </form>
     </div>
   </div>
-  <div class="col-8">
+  <div class="col-12">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Departments</h3>

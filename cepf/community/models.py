@@ -14,4 +14,17 @@ class Community (models.Model):
     address = models.CharField(max_length=255,null=False)
     frequency = models.PositiveIntegerField(default = 0 , null = False)
     engagementStart = models.DateField(null = False)
+    engagementStop = models.DateField(null = False)
     representative = models.ForeignKey(Representative,on_delete = models.SET_NULL, null = True)
+
+class EventToSchedule(models.Model):
+    id = models.AutoField(primary_key=True)
+    community = models.ForeignKey(Community,on_delete = models.CASCADE)
+    recommendedDate = models.DateField()
+
+class ScheduledEvent(models.Model):
+    id = models.AutoField(primary_key=True)
+    community = models.ForeignKey(Community,on_delete = models.CASCADE)
+    date = models.DateTimeField()
+
+

@@ -52,14 +52,21 @@ def officers(request):
         return redirect(notAuthorisedPage)
     template = loader.get_template('officers.html')
     listOfDepartments = Department.objects.all()
-    listOfOfficers = UserDetails.objects.all()
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    print(context["permissions"]);
     context["departments"] = listOfDepartments
-    context["officers"] = listOfOfficers
-    return HttpResponse(template.render(context, request))
+    
+    message = request.GET.get('tableSearch')
+    if message:
+        user = User.objects.filter(username__contains = message)
+        if user:
+            listOfOfficers = UserDetails.objects.filter()
+            context["officers"] = listOfOfficers
+    else:
+        listOfOfficers = UserDetails.objects.all()
+        context["officers"] = listOfOfficers
 
+    return HttpResponse(template.render(context, request))
 
 def addOfficer(request):
     if isUserOfficerManager(request) == False:
@@ -77,14 +84,12 @@ def addOfficer(request):
             details.badgeNumber = request.POST.get('officerBadgeNumber')
             details.department = Department.objects.get(
                 id=request.POST.get('department'))
-            #communities = request.POST.get('communities')
             user.save()
             details.save()
         except:
             return redirect(officers(request))
 
     return redirect(officers)
-
 
 def departments(request):
     if isUserOfficerManager(request) == False:
@@ -97,9 +102,7 @@ def departments(request):
     for dep in context["departments"]:
         x = Department.objects.get(id=dep.id)
         dep.count = UserDetails.objects.filter(department=x).count()
-
     return HttpResponse(template.render(context, request))
-
 
 def addDepartment(request):
     if isUserDepartmentManager(request) == False:
@@ -125,7 +128,6 @@ def addDepartment(request):
             return redirect(departments)
     return redirect(departments)
 
-
 def isUserOfficerManager(request):
     # default piece of code for user autenthication on operation
     currentUserId = request.user.id
@@ -140,7 +142,6 @@ def isUserOfficerManager(request):
             # logic ends
     except ObjectDoesNotExist:
         return False
-
 
 def isUserDepartmentManager(request):
     # default piece of code for user autenthication on operation
@@ -157,8 +158,8 @@ def isUserDepartmentManager(request):
     except ObjectDoesNotExist:
         return False
 
-
 def isUserEventManager(request):
+    
     # default piece of code for user autenthication on operation
     currentUserId = request.user.id
     if currentUserId == None:
@@ -172,7 +173,6 @@ def isUserEventManager(request):
             # logic ends
     except ObjectDoesNotExist:
         return False
-
 
 def isUserCommunityManager(request):
     # default piece of code for user autenthication on operation
@@ -188,7 +188,6 @@ def isUserCommunityManager(request):
             # logic ends
     except ObjectDoesNotExist:
         return False
-
 
 def getAuthsForUser(details):
     auths = {}

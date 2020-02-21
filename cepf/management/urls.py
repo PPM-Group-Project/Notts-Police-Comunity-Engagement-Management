@@ -11,5 +11,4 @@ urlpatterns = [
     path('officers/add', views.addOfficer),
     path('departments/', views.departments),
     path('departments/add', views.addDepartment),
-
 ]

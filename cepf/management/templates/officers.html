@@ -40,7 +40,7 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-3">
+  <div class="col-12 col-md-6">
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Add officer</h3>
@@ -49,43 +49,43 @@
         <form role="form" action="/officers/add" method="POST">
           {% csrf_token %}
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 col-md-6">
               <div class="form-group">
                 <label>Officer name</label>
                 <input type="text" id="officerName" name="officerName" class="form-control" placeholder="Enter ..."
                   required>
               </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-12 col-md-6">
               <div class="form-group">
                 <label>Officer surname</label>
                 <input type="text" id="officerSurname" name="officerSurname" class="form-control"
                   placeholder="Enter ..." required>
               </div>
             </div>
-            <div class="col-sm-7">
+            <div class="col-12 col-md-6">
               <div class="form-grou\sp">
                 <label>Work eMail</label>
                 <input type="eMail" id="officereMail" name="officereMail" class="form-control" placeholder="Enter ..."
                   required>
               </div>
             </div>
-            <div class="col-sm-5">
+            <div class="col-12 col-md-6">
               <div class="form-group">
                 <label>Username</label>
-                <input id="officerUsername" name="officerUsername" class="form-control">
+                <input id="officerUsername" name="officerUsername" class="form-control" disabled>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-12">
               <div class="form-group">
                 <label>Badge number</label>
                 <input type="text" id="officerBadgeNumber" name="officerBadgeNumber" class="form-control"
                   placeholder="Enter ..." required>
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-12">
               <div class="form-group">
                 <label>Department</label>
                 <select class="form-control" name="department">
@@ -99,8 +99,9 @@
               </div>
             </div>
           </div>
+          <!--
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-12">
               <div class="form-group">
                 <label>In charge of</label>
                 <select multiple class="form-control" name="communities">
@@ -113,6 +114,7 @@
               </div>
             </div>
           </div>
+          -->
           {% if addOfficerError %}
           <div class="row">
             <div class="col-12">
@@ -127,19 +129,54 @@
       </form>
     </div>
   </div>
-  <div class="col-6">
-    <div class="card">
+  <div class="col-12 col-md-6">
+    <div class="card card-danger" style="height: 310.5px;">
       <div class="card-header">
-        <h3 class="card-title">Officers</h3>
+        <h3 class="card-title">Officers per department</h3>
         <div class="card-tools">
-          <div class="input-group input-group-sm">
-            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="donutChart" style="max-width: 100%;"></canvas>
+      </div>
+    </div>
+    <div class="card card-danger" style="height: 310.5px">
+      <div class="card-header">
+        <h3 class="card-title">Officers per community</h3>
+        <div class="card-tools">
+        </div>
+      </div>
+      <div class="card-body">
+        <canvas id="donutChart2" style=" height: 200px; max-width: 100%;"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <form role="form" action="/officers" method="GET">
+        <div class="card-header">
+          <div class="card-tools">
+            <div class="input-group">
+              <div class="row form-group" style="margin-bottom:0;">
+                <div class="col-3">
+                  <select class="form-control" name="tableSearchSelect">
+                    <option>eMail</option>
+                    <option>Badge Number</option>
+                    <option>First Name</option>
+                    <option>Last Name</option>
+                  </select>
+                </div>
+                <div class="col-7">
+                  <input type="text" name="tableSearch" class="form-control float-right" placeholder="Search">
+                </div>
+                <div class="input-group-append col-2">
+                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
       <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
           <thead>
@@ -164,28 +201,7 @@
       </div>
     </div>
   </div>
-  <div class="col-3 ">
-    <div class="card card-danger" style="height: 310.5px;">
-      <div class="card-header">
-        <h3 class="card-title">Officers per department</h3>
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body">
-        <canvas id="donutChart" style="max-width: 100%;"></canvas>
-      </div>
-    </div>
-    <div class="card card-danger" style="height: 310.5px">
-      <div class="card-header">
-        <h3 class="card-title">Officers per community</h3>
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body">
-        <canvas id="donutChart2" style=" height: 200px; max-width: 100%;"></canvas>
-      </div>
-    </div>
-  </div>
+
 </div>
 {% endblock %}
 {% block body %}
