@@ -154,7 +154,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Departments</h3>
+        <h3 class="card-title">Communities</h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -178,14 +178,33 @@
             </thead>
             <tbody>
               {% if community %}
+              {% for c in community%}
+
               <tr>
-                {% for c in community%}
                 <td>{{c.name}}</td>
                 <td>{{c.address}}</td>
-                <td>{{c.frequency}}</td>
+                <td>
+
+                  {% if c.frequency == 12%}
+                  Monthly
+                  {% endif %}
+                  {% if c.frequency == 4%}
+                  Quarterly
+                  {% endif %}
+                  {% if c.frequency == 2%}
+                  Semiannually
+                  {% endif %}
+                  {% if c.frequency == 1%}
+                  Annually
+                  {% endif %}
+                  {% if c.frequency == 0%}
+                  On request
+                  {% endif %}
+
+                </td>
                 <td>{{c.representative.firstName}} {{c.representative.lastName}}</td>
-                {% endfor %}
               </tr>
+              {% endfor %}
               {% endif %}
             </tbody>
           </table>

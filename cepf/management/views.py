@@ -63,7 +63,7 @@ def officers(request):
             listOfOfficers = UserDetails.objects.filter()
             context["officers"] = listOfOfficers
     else:
-        listOfOfficers = UserDetails.objects.all()
+        listOfOfficers = UserDetails.objects.exclude(user = 1)
         context["officers"] = listOfOfficers
 
     return HttpResponse(template.render(context, request))
@@ -97,7 +97,7 @@ def departments(request):
     template = loader.get_template('departments.html')
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["officers"] = UserDetails.objects.all()
+    context["officers"] = UserDetails.objects.exclude(user = 1)
     context["departments"] = Department.objects.all()
     for dep in context["departments"]:
         x = Department.objects.get(id=dep.id)

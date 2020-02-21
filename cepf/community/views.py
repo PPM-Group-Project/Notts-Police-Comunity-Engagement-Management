@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-
 from management.views import notAuthorisedPage
 from management.views import isUserCommunityManager
 from management.views import isUserEventManager
@@ -37,22 +36,18 @@ def addCommunity(request):
             com.address = request.POST.get("communityAddress")
             com.frequency = request.POST.get("communityFrequency")
             engagementStartDate = request.POST.get("communityStart")
-            com.engagementStart = datetime.strptime(
-                engagementStartDate, "%Y-%m-%d"
-            ).date()
+            com.engagementStart = datetime.strptime( engagementStartDate, "%Y-%m-%d" ).date()
 
             engagementStopDate = request.POST.get("communityStop")
-            com.engagementStop = datetime.strptime(
-                engagementStopDate, "%Y-%m-%d"
-            ).date()
+            com.engagementStop = datetime.strptime( engagementStopDate, "%Y-%m-%d" ).date()
 
             rep.firstName = request.POST.get("communityRepresentativeFirstName")
             rep.lastName = request.POST.get("communityRepresentativeLastName")
             rep.eMail = request.POST.get("communityRepresentativeEMail")
             rep.address = request.POST.get("communityRepresentativeAddress")
             com.representative = rep
-            com.save()
             rep.save()
+            com.save()
 
             # Calculate suggested events and put them in database
             if int(com.frequency) == 12:
@@ -106,13 +101,9 @@ def addCommunity(request):
                     event.community = com
                     event.recommendedDate = i
                     event.save()
-
             else:
-
                 pass
-
     return redirect(communities)
-
 
 def events(request):
     if isUserEventManager(request) == False:
@@ -120,4 +111,6 @@ def events(request):
     template = loader.get_template("events.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
+    context["event"] = EventToSchedule.objects.all().order_by('recommendedDate')
+    context["officers"] = UserDetails.objects.exclude(user = 1)
     return HttpResponse(template.render(context, request))
