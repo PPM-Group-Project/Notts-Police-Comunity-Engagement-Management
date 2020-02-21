@@ -23,7 +23,7 @@
         <form action="" method="post">
           {% csrf_token %}
           <div class="input-group mb-3">
-            <input name="username" type="" class="form-control" placeholder="Username">
+            <input autocomplete="off" name="username" type="" class="form-control" placeholder="Username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input name="password" type="password" class="form-control" placeholder="Password">
+            <input autocomplete="off" name="password" type="password" class="form-control" placeholder="Password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
