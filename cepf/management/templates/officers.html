@@ -1,42 +1,6 @@
 {% extends 'static.html' %} {% block title%} Officers {% endblock %}
 {% block sidebar %}
-{% if permissions.isOfficerManager %}
-<div>
-  <li class="nav-item">
-    <a href="/officers" class="nav-link">
-      <i class="fas fa-user-friends"></i>
-      <p>Officers</p>
-    </a>
-  </li>
-  {% endif %} {% if permissions.isDepartmentManager %}
-  <li class="nav-item">
-    <a href="/departments" class="nav-link">
-      <i class="fas fa-building"></i>
-      <p>Departments</p>
-    </a>
-  </li>
-  {% endif %} {% if permissions.isCommunityManager %}
-  <li class="nav-item">
-    <a href="/communities" class="nav-link">
-      <i class="nav-icon fas fa-handshake"></i>
-      <p>Communities</p>
-    </a>
-  </li>
-  {% endif %} {% if permissions.isEventManager %}
-  <li class="nav-item">
-    <a href="/events" class="nav-link">
-      <i class="fas fa-calendar-plus"></i>
-      <p>Events</p>
-    </a>
-  </li>
-  {% endif %}
-  <li class="nav-item">
-    <a href="/myevents" class="nav-link">
-      <i class="fas fa-calendar-alt"></i>
-      <p>My events</p>
-    </a>
-  </li>
-</div>
+{% include 'sidebar.html' %}
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -70,12 +34,7 @@
                   required>
               </div>
             </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label>Username</label>
-                <input id="officerUsername" name="officerUsername" class="form-control" disabled>
-              </div>
-            </div>
+
           </div>
           <div class="row">
             <div class="col-12">
@@ -182,6 +141,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Username</th>
               <th>eMail</th>
               <th>Badge Number</th>
               <th>Department</th>
@@ -191,6 +151,7 @@
             {% if officers %} {% for officer in officers%}
             <tr>
               <td>{{officer.user.first_name}} {{officer.user.last_name}}</td>
+              <td>{{officer.user.username}}</td>
               <td>{{officer.user.email}}</td>
               <td>{{officer.badgeNumber}}</td>
               <td>{{officer.department.departmentName}}</td>

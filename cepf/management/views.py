@@ -55,7 +55,6 @@ def officers(request):
     context = {}
     context["permissions"] = getAuthsForUser(request)
     context["departments"] = listOfDepartments
-    
     message = request.GET.get('tableSearch')
     if message:
         user = User.objects.filter(username__contains = message)
@@ -77,15 +76,16 @@ def addOfficer(request):
             user.first_name = request.POST.get('officerName')
             user.last_name = request.POST.get('officerSurname')
             user.email = request.POST.get('officereMail')
-            user.username = request.POST.get('officerUsername')
+            user.username = user.email.split('@')[0]
             user.set_password("default")
             details = UserDetails()
             details.user = user
             details.badgeNumber = request.POST.get('officerBadgeNumber')
-            details.department = Department.objects.get(
-                id=request.POST.get('department'))
+            details.department = Department.objects.get(id=request.POST.get('department'))
             user.save()
             details.save()
+
+
         except:
             return redirect(officers(request))
 
@@ -97,7 +97,7 @@ def departments(request):
     template = loader.get_template('departments.html')
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["officers"] = UserDetails.objects.exclude(user = 1)
+    context["officers"] = UserDetails.objects.all()
     context["departments"] = Department.objects.all()
     for dep in context["departments"]:
         x = Department.objects.get(id=dep.id)
