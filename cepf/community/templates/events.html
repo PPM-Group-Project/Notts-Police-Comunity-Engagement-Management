@@ -1,4 +1,4 @@
-{% extends 'static.html' %} {% block title%} Officers {% endblock %}
+{% extends 'static.html' %} {% block title%} Events {% endblock %}
 {% block sidebar %}
 {% include 'sidebar.html' %}
 {% endblock %}
@@ -35,7 +35,7 @@
               {% if event %}
               {% for e in event%}
               <tr>
-                <td>{{e.recommendedDate}}</td>
+                <td>{{e.recommendedDate}} {%if e.recommendedTime %} {{e.recommendedTime}} {% endif %} </td>
                 <td>{{e.community.name}}</td>
                 <td>{{e.community.representative.firstName}} {{e.community.representative.lastName}}</td>
                 <td style="width: 500px;">

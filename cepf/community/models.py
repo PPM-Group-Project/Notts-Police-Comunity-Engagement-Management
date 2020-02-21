@@ -38,13 +38,14 @@ class EventToSchedule(models.Model):
     isManualyAdded = models.BooleanField(default=False)
     recommendedReview = models.BooleanField(default=False)
     canceledBefore = models.BooleanField(default=False)
-    recommendedDate = models.DateTimeField()
+    recommendedDate = models.DateField()
+    recommendedTime = models.TimeField(default=None,null = True)
 
 # Database model for storing events that are scheduled by Event Managers.
 # When sucesfull, events get delted from this model and pushed to
 # CompletedEvents model, where officer can leave a review.
 # Also, officer can propose change to scheduled events, which must be approved
-# by events managers
+# by event managers
 class ScheduledEvent(models.Model):
     id = models.AutoField(primary_key=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
