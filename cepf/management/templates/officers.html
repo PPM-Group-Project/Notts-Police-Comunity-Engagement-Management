@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-12 col-md-6">
+  <div class="col-12 col-md-6 col-lg-3">
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Add officer</h3>
@@ -88,7 +88,7 @@
       </form>
     </div>
   </div>
-  <div class="col-12 col-md-6">
+  <div class="col-12 col-md-6 col-lg-3">
     <div class="card card-danger" style="height: 310.5px;">
       <div class="card-header">
         <h3 class="card-title">Officers per department</h3>
@@ -99,18 +99,9 @@
         <canvas id="donutChart" style="max-width: 100%;"></canvas>
       </div>
     </div>
-    <div class="card card-danger" style="height: 310.5px">
-      <div class="card-header">
-        <h3 class="card-title">Officers per community</h3>
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body">
-        <canvas id="donutChart2" style=" height: 200px; max-width: 100%;"></canvas>
-      </div>
-    </div>
+
   </div>
-  <div class="col-12">
+  <div class="col-12 col-md-12 col-lg-6">
     <div class="card">
       <form role="form" action="/officers" method="GET">
         <div class="card-header">
@@ -181,7 +172,6 @@
   });
   $(function () {
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutChartCanvas2 = $('#donutChart2').get(0).getContext('2d')
 
     var donutData = {
       labels: [
@@ -204,12 +194,6 @@
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
     var donutChart = new Chart(donutChartCanvas, {
-      type: 'doughnut',
-      data: donutData,
-      options: donutOptions
-    })
-
-    var donutChart = new Chart(donutChartCanvas2, {
       type: 'doughnut',
       data: donutData,
       options: donutOptions

@@ -1,17 +1,14 @@
 {% extends 'static.html' %}
-
 {% block title%} Departments {% endblock %}
-
 {% block messages %}
 {% include 'messages.html' %}
 {% endblock %}
-
 {% block sidebar %}
 {% include 'sidebar.html' %}
 {% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-4">
+  <div class="col-12 col-md-4">
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Add department</h3>
@@ -76,7 +73,7 @@
       </form>
     </div>
   </div>
-  <div class="col-8">
+  <div class="col-12 col-md-8">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Departments</h3>
