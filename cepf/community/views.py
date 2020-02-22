@@ -10,6 +10,7 @@ from management.views import isUserCommunityManager
 from management.views import isUserEventManager
 from management.views import getAuthsForUser
 
+from django.contrib.auth.models import User
 from management.models import UserDetails, Department
 from .models import Representative, Community, EventToSchedule, ScheduledEvent
 
@@ -28,7 +29,7 @@ def addCommunity(request):
     if isUserCommunityManager(request) == False:
         return redirect(notAuthorisedPage)
     if request.method == "POST":
-        if True:
+        try:
             com = Community()
             rep = Representative()
             com.name = request.POST.get("communityName")
@@ -101,8 +102,8 @@ def addCommunity(request):
                     event.community = com
                     event.recommendedDate = i
                     event.save()
-            else:
-                pass
+        except:
+            pass
     return redirect(communities)
 
 def events(request):
@@ -111,6 +112,32 @@ def events(request):
     template = loader.get_template("events.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["event"] = EventToSchedule.objects.all().order_by('recommendedDate')
+    context["event"] = EventToSchedule.objects.all().order_by('recommendedDate','recommendedTime')
     context["officers"] = UserDetails.objects.exclude(user = 1)
     return HttpResponse(template.render(context, request))
+
+def scheduledEvents(request):
+    if isUserEventManager(request) == False:
+        return redirect(notAuthorisedPage)
+    template = loader.get_template("scheduledevents.html")
+    context = {}
+    context["permissions"] = getAuthsForUser(request)
+    context["event"] = ScheduledEvent.objects.all().order_by('date' , 'time')
+    return HttpResponse(template.render(context, request))
+
+def scheduleEvent(request,eventid):
+    if isUserEventManager(request) == False:
+        return redirect(notAuthorisedPage)
+    if request.method == 'POST':
+        officerid = request.POST.get("officerid")
+        eventdatetime = request.POST.get("datetime")
+        eventdatetime = datetime.strptime( eventdatetime, "%Y-%m-%dT%H:%M")
+        eventSchedule = EventToSchedule.objects.get(id = eventid)
+        newEvent = ScheduledEvent()
+        newEvent.user = User.objects.get(id = int(officerid))
+        newEvent.community = eventSchedule.community
+        newEvent.date = eventdatetime.date()
+        newEvent.time = eventdatetime.time()
+        newEvent.save()
+        eventSchedule.delete()
+        return redirect(scheduledEvents)

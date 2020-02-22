@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import datetime
 
 # Databasase model for storing community representative details,
 # future upgrades to the program include providing ability for 
@@ -40,6 +42,13 @@ class EventToSchedule(models.Model):
     canceledBefore = models.BooleanField(default=False)
     recommendedDate = models.DateField()
     recommendedTime = models.TimeField(default=None,null = True)
+    def isOverdue(self):
+        if self.recommendedTime == None:
+            return (datetime.now().date() > self.recommendedDate and datetime.now().time() > self.recommendedTime)
+        else:
+            return(datetime.now().date() > self.recommendedDate)
+
+
 
 # Database model for storing events that are scheduled by Event Managers.
 # When sucesfull, events get delted from this model and pushed to
@@ -47,7 +56,18 @@ class EventToSchedule(models.Model):
 # Also, officer can propose change to scheduled events, which must be approved
 # by event managers
 class ScheduledEvent(models.Model):
+    def fromScheduledToCanceled(self):
+        newEvent = EventToSchedule()
+        newEvent.community = self.community
+        newEvent.canceledBefore = True
+        newEvent.recommendedDate = self.date
+        newEvent.recommendedTime = self.time
+        self.delete()
+
     id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=fromScheduledToCanceled, null=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    date = models.DateField()
+    time = models.TimeField()
+    
 
