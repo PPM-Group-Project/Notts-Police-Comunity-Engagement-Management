@@ -55,15 +55,19 @@ class EventToSchedule(models.Model):
 # CompletedEvents model, where officer can leave a review.
 # Also, officer can propose change to scheduled events, which must be approved
 # by event managers
-class ScheduledEvent(models.Model):
-    def fromScheduledToCanceled(self):
-        newEvent = EventToSchedule()
-        newEvent.community = self.community
-        newEvent.canceledBefore = True
-        newEvent.recommendedDate = self.date
-        newEvent.recommendedTime = self.time
-        self.delete()
 
+
+
+class ScheduledEvent(models.Model):
+    def fromScheduledToCanceled(collector, user, oldrecords, using):
+        for i in oldrecords:
+            newEvent = EventToSchedule()
+            newEvent.community = i.community
+            newEvent.canceledBefore = True
+            newEvent.recommendedDate = i.date
+            newEvent.recommendedTime = i.time
+            newEvent.save()
+            i.delete()
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=fromScheduledToCanceled, null=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)

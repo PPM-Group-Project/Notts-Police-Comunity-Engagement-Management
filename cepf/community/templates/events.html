@@ -35,7 +35,7 @@
             <tbody>
               {% if event %}
               {% for e in event%}
-              <tr {% if e.isOverdue %} style="color:red;" {% endif %}>
+              <tr  style="{% if e.isOverdue %}color:red; {% endif %} {% if e.canceledBefore %} color:#F1A04F; {% endif %}" >
                 <td>{{e.recommendedDate}} {%if e.recommendedTime %} {{e.recommendedTime}} {% endif %} </td>
                 <td>{{e.community.name}}</td>
                 <td>{{e.community.representative.firstName}} {{e.community.representative.lastName}}</td>
