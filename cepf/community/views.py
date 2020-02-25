@@ -106,6 +106,12 @@ def addCommunity(request):
             pass
     return redirect(communities)
 
+def removeCommunity(request,communityId):
+    if isUserCommunityManager(request) == False:
+        return redirect(notAuthorisedPage)
+    Community.objects.get(id = communityId).delete()
+    return redirect(communities)
+
 def events(request):
     if isUserEventManager(request) == False:
         return redirect(notAuthorisedPage)
@@ -141,3 +147,12 @@ def scheduleEvent(request,eventid):
         newEvent.save()
         eventSchedule.delete()
         return redirect(scheduledEvents)
+
+def completedEvents(request):
+    if isUserEventManager(request) == False:
+        return redirect(notAuthorisedPage)
+    template = loader.get_template("completedevents.html")
+    context = {}
+    context["permissions"] = getAuthsForUser(request)
+    context["event"] = ScheduledEvent.objects.all().order_by('date' , 'time')
+    return HttpResponse(template.render(context, request))

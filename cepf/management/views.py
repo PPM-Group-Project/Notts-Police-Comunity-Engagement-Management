@@ -7,10 +7,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import UserDetails, Department
 from django.contrib.auth.models import User
 
-
 def notAuthorisedPage(request):
     return HttpResponse("You are not authorised to access this property!")
-
 
 def loginUser(request):
     template = loader.get_template('login.html')
@@ -32,11 +30,9 @@ def loginUser(request):
             context["invalidLogin"] = True
             return HttpResponse(template.render(context, request))
 
-
 def logoutUser(request):
     logout(request)
     return redirect(loginUser)
-
 
 def dashboard(request):
     template = loader.get_template('personalDetails.html')
@@ -45,7 +41,6 @@ def dashboard(request):
         return redirect(loginUser)
     context["permissions"] = getAuthsForUser(request)
     return HttpResponse(template.render(context, request))
-
 
 def officers(request):
     if isUserOfficerManager(request) == False:
@@ -84,11 +79,14 @@ def addOfficer(request):
             details.department = Department.objects.get(id=request.POST.get('department'))
             user.save()
             details.save()
-
-
         except:
             return redirect(officers(request))
+    return redirect(officers)
 
+def removeOfficer(request,officerId):
+    if isUserOfficerManager(request) == False:
+        return redirect(notAuthorisedPage)
+    User.objects.get(id = officerId).delete()
     return redirect(officers)
 
 def departments(request):
@@ -128,6 +126,12 @@ def addDepartment(request):
             return redirect(departments)
     return redirect(departments)
 
+def removeDepartment(request,departmentId):
+    if isUserDepartmentManager(request) == False:
+        return redirect(notAuthorisedPage)
+    Department.objects.get(id = departmentId).delete()
+    return redirect(departments)
+
 def isUserOfficerManager(request):
     # default piece of code for user autenthication on operation
     currentUserId = request.user.id
@@ -136,7 +140,7 @@ def isUserOfficerManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).department.isOfficerManager:
+        if UserDetails.objects.get(user=currentUser).isOfficerManager():
             # logic starts
             return True
             # logic ends
@@ -151,7 +155,7 @@ def isUserDepartmentManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).department.isDepartmentManager:
+        if UserDetails.objects.get(user=currentUser).isDepartmentManager():
             # logic starts
             return True
             # logic ends
@@ -160,14 +164,13 @@ def isUserDepartmentManager(request):
 
 def isUserEventManager(request):
     
-    # default piece of code for user autenthication on operation
     currentUserId = request.user.id
     if currentUserId == None:
         return False
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).department.isEventManager:
+        if UserDetails.objects.get(user=currentUser).isEventManager():
             # logic starts
             return True
             # logic ends
@@ -182,7 +185,7 @@ def isUserCommunityManager(request):
     try:
         currentUser = User.objects.get(id=currentUserId)
         # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).department.isCommunityManager:
+        if UserDetails.objects.get(user=currentUser).isCommunityManager():
             # logic starts
             return True
             # logic ends
@@ -191,12 +194,8 @@ def isUserCommunityManager(request):
 
 def getAuthsForUser(details):
     auths = {}
-    if isUserOfficerManager(details):
-        auths["isOfficerManager"] = True
-    if isUserDepartmentManager(details):
-        auths["isDepartmentManager"] = True
-    if isUserEventManager(details):
-        auths["isEventManager"] = True
-    if isUserCommunityManager(details):
-        auths["isCommunityManager"] = True
+    auths["isOfficerManager"] = isUserOfficerManager(details)
+    auths["isDepartmentManager"] = isUserDepartmentManager(details)
+    auths["isEventManager"] = isUserEventManager(details)
+    auths["isCommunityManager"] = isUserCommunityManager(details)
     return auths

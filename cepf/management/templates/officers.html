@@ -16,8 +16,8 @@
             <div class="col-sm-12 col-md-6">
               <div class="form-group">
                 <label>Officer name</label>
-                <input autocomplete="off" type="text" id="officerName" name="officerName" class="form-control" placeholder="Enter ..."
-                  required>
+                <input autocomplete="off" type="text" id="officerName" name="officerName" class="form-control"
+                  placeholder="Enter ..." required>
               </div>
             </div>
             <div class="col-sm-12 col-md-6">
@@ -30,8 +30,8 @@
             <div class="col-12 col-md-6">
               <div class="form-grou\sp">
                 <label>Work eMail</label>
-                <input autocomplete="off" type="eMail" id="officereMail" name="officereMail" class="form-control" placeholder="Enter ..."
-                  required>
+                <input autocomplete="off" type="eMail" id="officereMail" name="officereMail" class="form-control"
+                  placeholder="Enter ..." required>
               </div>
             </div>
 
@@ -40,8 +40,8 @@
             <div class="col-12">
               <div class="form-group">
                 <label>Badge number</label>
-                <input autocomplete="off" type="text" id="officerBadgeNumber" name="officerBadgeNumber" class="form-control"
-                  placeholder="Enter ..." required>
+                <input autocomplete="off" type="text" id="officerBadgeNumber" name="officerBadgeNumber"
+                  class="form-control" placeholder="Enter ..." required>
               </div>
             </div>
             <div class="col-12">
@@ -117,7 +117,8 @@
                   </select>
                 </div>
                 <div class="col-7">
-                  <input autocomplete="off" type="text" name="tableSearch" class="form-control float-right" placeholder="Search">
+                  <input autocomplete="off" type="text" name="tableSearch" class="form-control float-right"
+                    placeholder="Search">
                 </div>
                 <div class="input-group-append col-2">
                   <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -136,6 +137,7 @@
               <th>eMail</th>
               <th>Badge Number</th>
               <th>Department</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -146,6 +148,15 @@
               <td>{{officer.user.email}}</td>
               <td>{{officer.badgeNumber}}</td>
               <td>{{officer.department.departmentName}}</td>
+              <td>
+                <a href="/officers/remove/{{officer.user.id}}">
+                  <div class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                    title="Delete officer">
+                    <button class="btn btn-default" style="pointer-events: none;" type="button"><i
+                        class="fas fa-trash-alt"></i></button>
+                  </div>
+                </a>
+              </td>
             </tr>
             {% endfor %} {% endif %}
           </tbody>

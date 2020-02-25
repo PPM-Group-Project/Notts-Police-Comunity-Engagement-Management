@@ -9,6 +9,8 @@ urlpatterns = [
     path('nonauthorised/', views.notAuthorisedPage),
     path('officers/', views.officers),
     path('officers/add', views.addOfficer),
+    path('officers/remove/<int:officerId>',views.removeOfficer),
     path('departments/', views.departments),
     path('departments/add', views.addDepartment),
+    path('departments/remove/<int:departmentId>',views.removeDepartment),
 ]

@@ -1,26 +1,29 @@
-{% if permissions.isOfficerManager %}
 <div>
+  {% if permissions.isOfficerManager %}
   <li class="nav-item">
     <a href="/officers" class="nav-link">
       <i class="fas fa-user-friends"></i>
       <p>Officers</p>
     </a>
   </li>
-  {% endif %} {% if permissions.isDepartmentManager %}
+  {% endif %}
+  {% if permissions.isDepartmentManager %}
   <li class="nav-item">
     <a href="/departments" class="nav-link">
       <i class="fas fa-building"></i>
       <p>Departments</p>
     </a>
   </li>
-  {% endif %} {% if permissions.isCommunityManager %}
+  {% endif %}
+  {% if permissions.isCommunityManager %}
   <li class="nav-item">
     <a href="/communities" class="nav-link">
       <i class="nav-icon fas fa-handshake"></i>
       <p>Communities</p>
     </a>
   </li>
-  {% endif %} {% if permissions.isEventManager %}
+  {% endif %}
+  {% if permissions.isEventManager %}
   <li class="nav-item has-treeview">
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-calendar"></i>
@@ -51,5 +54,17 @@
     </ul>
   </li>
   {% endif %}
+  <li class="nav-item">
+    <a href="/myevents" class="nav-link">
+      <i class="fas fa-calendar-alt"></i>
+      <p>My events</p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="/logout" class="nav-link">
+      <i class="fas fa-sign-out-alt"></i>
+      <p>Log out</p>
+    </a>
+  </li>
 
 </div>

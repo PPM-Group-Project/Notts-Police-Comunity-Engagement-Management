@@ -43,7 +43,7 @@ class EventToSchedule(models.Model):
     recommendedDate = models.DateField()
     recommendedTime = models.TimeField(default=None,null = True)
     def isOverdue(self):
-        if self.recommendedTime == None:
+        if (self.recommendedTime):
             return (datetime.now().date() > self.recommendedDate and datetime.now().time() > self.recommendedTime)
         else:
             return(datetime.now().date() > self.recommendedDate)
@@ -55,9 +55,6 @@ class EventToSchedule(models.Model):
 # CompletedEvents model, where officer can leave a review.
 # Also, officer can propose change to scheduled events, which must be approved
 # by event managers
-
-
-
 class ScheduledEvent(models.Model):
     def fromScheduledToCanceled(collector, user, oldrecords, using):
         for i in oldrecords:
