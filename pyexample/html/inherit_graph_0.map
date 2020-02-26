@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classmodels_1_1Community.html" title="Database model for storing communities on the system. " alt="" coords="5,81,140,108"/>
-<area shape="rect" id="node2" href="$classmodels_1_1CompletedEvents.html" title="Database model for storing events that officers marked as complete. " alt="" coords="188,5,360,32"/>
-<area shape="rect" id="node3" href="$classmodels_1_1EventToSchedule.html" title="Database model for storing events that need to be scheduled. " alt="" coords="189,56,359,83"/>
-<area shape="rect" id="node4" href="$classmodels_1_1Representative.html" title="Databasase model for storing community representative details. " alt="" coords="196,107,352,133"/>
-<area shape="rect" id="node5" href="$classmodels_1_1ScheduledEvent.html" title="Database model for storing events that are scheduled by Event Managers. " alt="" coords="193,157,355,184"/>
-</map>

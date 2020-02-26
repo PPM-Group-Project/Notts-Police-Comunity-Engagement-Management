@@ -37,8 +37,8 @@
                 <td>{{e.date}} {{e.time}}</td>
                 <td>{{e.community.name}}</td>
                 <td>{{e.community.address}}</td>
-                <td>{% if e.users.all %}
-                  {% for u in e.users.all %}
+                <td>{% if e.officers.all %}
+                  {% for u in e.officers.all %}
                   {{u.first_name}} {{u.last_name}}
                   <br>
                   {% endfor %}

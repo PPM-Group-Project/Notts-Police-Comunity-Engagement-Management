@@ -149,7 +149,7 @@ def scheduleEvent(request,eventid):
             newEvent.time = eventdatetime.time()
             newEvent.save()
             for officer in officers:
-                newEvent.users.add(User.objects.get(id = int(officer)))
+                newEvent.officers.add(User.objects.get(id = int(officer)))
             newEvent.save()
             eventSchedule.delete()
         except:

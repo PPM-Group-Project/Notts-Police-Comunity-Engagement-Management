@@ -94,7 +94,7 @@ class ScheduledEvent(models.Model):
 
     ## Unique Id for data entry in this model
     id = models.AutoField(primary_key=True)
-    users = models.ManyToManyField(User)
+    officers = models.ManyToManyField(User)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
@@ -111,7 +111,7 @@ class CompletedEvents(models.Model):
 
     ## Unique Id for data entry in this model
     id = models.IntegerField(primary_key=True, null=False)
-    users = models.ManyToManyField(User)
+    officers = models.ManyToManyField(User)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
