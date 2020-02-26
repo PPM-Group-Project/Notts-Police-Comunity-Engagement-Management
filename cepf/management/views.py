@@ -46,10 +46,12 @@ def officers(request):
     if isUserOfficerManager(request) == False:
         return redirect(notAuthorisedPage)
     template = loader.get_template('officers.html')
-    listOfDepartments = Department.objects.all()
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["departments"] = listOfDepartments
+    context["departments"] = Department.objects.all()
+    listOfOfficers = UserDetails.objects.exclude(user = 1)
+    context["officers"] = UserDetails.objects.exclude(user = 1)
+    
     return HttpResponse(template.render(context, request))
 
 def addOfficer(request):
