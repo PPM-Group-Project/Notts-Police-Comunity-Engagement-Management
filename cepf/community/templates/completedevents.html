@@ -1,7 +1,5 @@
 {% extends 'static.html' %} {% block title%} Events - Scheduled {% endblock %}
-{% block sidebar %}
-{% include 'sidebar.html' %}
-{% endblock %}
+
 {% block content %}
 
 <div class="row">
@@ -32,7 +30,7 @@
             </thead>
             <tbody>
               {% if event %}
-              {% for e in event%}
+              {% for e in events%}
               <tr>
                 <td>{{e.date}} {{e.time}}</td>
                 <td>{{e.community.name}}</td>

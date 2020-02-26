@@ -48,8 +48,6 @@ class EventToSchedule(models.Model):
         else:
             return(datetime.now().date() > self.recommendedDate)
 
-
-
 # Database model for storing events that are scheduled by Event Managers.
 # When sucesfull, events get delted from this model and pushed to
 # CompletedEvents model, where officer can leave a review.
@@ -71,4 +69,8 @@ class ScheduledEvent(models.Model):
     date = models.DateField()
     time = models.TimeField()
     
-
+class CompletedEvents(models.Model):
+    id = models.IntegerField(primary_key=True,null=False)
+    community = models.ForeignKey(Community, on_delete=models.CASCADE)
+    date = models.DateField()
+    time = models.TimeField()

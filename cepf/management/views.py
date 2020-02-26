@@ -96,7 +96,7 @@ def departments(request):
     context = {}
     context["permissions"] = getAuthsForUser(request)
     context["officers"] = UserDetails.objects.all()
-    context["departments"] = Department.objects.all()
+    context["departments"] = Department.objects.filter().exclude(id = 1)
     for dep in context["departments"]:
         x = Department.objects.get(id=dep.id)
         dep.count = UserDetails.objects.filter(department=x).count()
@@ -133,64 +133,41 @@ def removeDepartment(request,departmentId):
     return redirect(departments)
 
 def isUserOfficerManager(request):
-    # default piece of code for user autenthication on operation
-    currentUserId = request.user.id
-    if currentUserId == None:
-        return False
-    try:
-        currentUser = User.objects.get(id=currentUserId)
-        # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isOfficerManager():
-            # logic starts
-            return True
-            # logic ends
-    except ObjectDoesNotExist:
-        return False
+    currentUser = returnCurrentUser(request)
+    # change parameter below to check for different privilege
+    if UserDetails.objects.get(user=currentUser).isOfficerManager():
+        return True
+    return False
 
 def isUserDepartmentManager(request):
-    # default piece of code for user autenthication on operation
-    currentUserId = request.user.id
-    if currentUserId == None:
-        return False
-    try:
-        currentUser = User.objects.get(id=currentUserId)
-        # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isDepartmentManager():
-            # logic starts
-            return True
-            # logic ends
-    except ObjectDoesNotExist:
-        return False
-
+    currentUser = returnCurrentUser(request)
+    # change parameter below to check for different privilege
+    if UserDetails.objects.get(user=currentUser).isDepartmentManager():
+        return True
+    return False
 def isUserEventManager(request):
-    
-    currentUserId = request.user.id
-    if currentUserId == None:
-        return False
-    try:
-        currentUser = User.objects.get(id=currentUserId)
-        # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isEventManager():
-            # logic starts
-            return True
-            # logic ends
-    except ObjectDoesNotExist:
-        return False
+    currentUser = returnCurrentUser(request)
+    # change parameter below to check for different privilege
+    if UserDetails.objects.get(user=currentUser).isEventManager():
+        return True
+    return False
 
 def isUserCommunityManager(request):
-    # default piece of code for user autenthication on operation
-    currentUserId = request.user.id
+    currentUser = returnCurrentUser(request)
+    # change parameter below to check for different privilege
+    if UserDetails.objects.get(user=currentUser).isCommunityManager():
+        return True
+    return False
+
+def returnCurrentUser(details):
+    currentUserId = details.user.id
     if currentUserId == None:
-        return False
+        return redirect(notAuthorisedPage)
     try:
         currentUser = User.objects.get(id=currentUserId)
-        # change parameter below to check for different privilege
-        if UserDetails.objects.get(user=currentUser).isCommunityManager():
-            # logic starts
-            return True
-            # logic ends
+        return currentUser
     except ObjectDoesNotExist:
-        return False
+        return redirect(notAuthorisedPage)
 
 def getAuthsForUser(details):
     auths = {}

@@ -1,3 +1,9 @@
+<style>
+  i {
+    margin-right: 10px;
+  }
+</style>
+
 <div>
   {% if permissions.isOfficerManager %}
   <li class="nav-item">
@@ -24,7 +30,7 @@
   </li>
   {% endif %}
   {% if permissions.isEventManager %}
-  <li class="nav-item has-treeview">
+  <li id="sidebar-events" class="nav-item has-treeview">
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-calendar"></i>
       <p>
@@ -61,6 +67,13 @@
     </a>
   </li>
   <li class="nav-item">
+    <a href="/myfeedback" class="nav-link">
+      <i class="fas fa-pencil-alt"></i>
+            <p>My feedback</p>
+    </a>
+  </li>
+
+  <li class="nav-item">
     <a href="/logout" class="nav-link">
       <i class="fas fa-sign-out-alt"></i>
       <p>Log out</p>
@@ -68,3 +81,12 @@
   </li>
 
 </div>
+
+<script>
+  var url = window.location.href;
+  var isEventPage = url.includes("events");
+  if (isEventPage) {
+    var v = document.getElementById("sidebar-events");
+    v.className += " menu-open";
+  }
+</script>

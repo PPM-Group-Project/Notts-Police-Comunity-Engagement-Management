@@ -9,6 +9,7 @@ from management.views import notAuthorisedPage
 from management.views import isUserCommunityManager
 from management.views import isUserEventManager
 from management.views import getAuthsForUser
+from management.views import returnCurrentUser
 
 from django.contrib.auth.models import User
 from management.models import UserDetails, Department
@@ -118,7 +119,7 @@ def events(request):
     template = loader.get_template("events.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["event"] = EventToSchedule.objects.all().order_by('recommendedDate','recommendedTime')
+    context["evenst"] = EventToSchedule.objects.all().order_by('recommendedDate','recommendedTime')
     context["officers"] = UserDetails.objects.exclude(user = 1)
     return HttpResponse(template.render(context, request))
 
@@ -128,7 +129,7 @@ def scheduledEvents(request):
     template = loader.get_template("scheduledevents.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["event"] = ScheduledEvent.objects.all().order_by('date' , 'time')
+    context["events"] = ScheduledEvent.objects.all().order_by('date' , 'time')
     return HttpResponse(template.render(context, request))
 
 def scheduleEvent(request,eventid):
@@ -154,5 +155,16 @@ def completedEvents(request):
     template = loader.get_template("completedevents.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["event"] = ScheduledEvent.objects.all().order_by('date' , 'time')
+    context["events"] = ScheduledEvent.objects.all().order_by('date' , 'time')
     return HttpResponse(template.render(context, request))
+
+def myEvents(request):
+    #beware; this view does not need authentication, every user can access it
+    template = loader.get_template("myevents.html")
+    context = {}
+    context["permissions"] = getAuthsForUser(request)
+    currentUser = returnCurrentUser(request)
+    context["events"] = ScheduledEvent.objects.filter(user = currentUser)
+    return HttpResponse(template.render(context,request))
+
+    
