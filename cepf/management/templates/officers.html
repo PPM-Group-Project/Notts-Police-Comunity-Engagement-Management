@@ -26,13 +26,12 @@
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <div class="form-grou\sp">
+              <div class="form-group">
                 <label>Work eMail</label>
                 <input autocomplete="off" type="eMail" id="officereMail" name="officereMail" class="form-control"
                   placeholder="Enter ..." required>
               </div>
             </div>
-
           </div>
           <div class="row">
             <div class="col-12">
@@ -46,7 +45,7 @@
               <div class="form-group">
                 <label>Department</label>
                 <select class="form-control" name="department">
-                  <option>None</option>
+                  <option value="NoDep" >None</option>
                   {% if departments %}
                   {% for dep in departments %}
                   <option value="{{dep.id}}">{{dep.departmentName}}</option>

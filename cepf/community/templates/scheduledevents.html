@@ -9,7 +9,8 @@
         <h3 class="card-title">Scheduled events</h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
-            <input autocomplete="off" type="text" name="table_search" class="form-control float-right" placeholder="Search">
+            <input autocomplete="off" type="text" name="table_search" class="form-control float-right"
+              placeholder="Search">
             <div class="input-group-append">
               <button type="submit" class="btn btn-default"><i class="fas fa-search"></i>
               </button>
@@ -26,16 +27,31 @@
                 <th>Community Name</th>
                 <th>Community Address</th>
                 <th>Officer</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {% if event %}
+              {% if events %}
               {% for e in events%}
               <tr>
                 <td>{{e.date}} {{e.time}}</td>
                 <td>{{e.community.name}}</td>
                 <td>{{e.community.address}}</td>
-                <td>{{e.user.first_name}} {{e.user.last_name}}</td>
+                <td>{% if e.users.all %}
+                  {% for u in e.users.all %}
+                  {{u.first_name}} {{u.last_name}}
+                  <br>
+                  {% endfor %}
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="/events/reschedule/{{e.id}}">
+                    <div class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Delete officer">
+                      <button class="btn btn-default" style="pointer-events: none;" type="button">
+                        <i class="fas fa-edit"></i> </button>
+                    </div>
+                  </a>
+                </td>
               </tr>
               {% endfor %}
               {% endif %}

@@ -50,16 +50,6 @@ def officers(request):
     context = {}
     context["permissions"] = getAuthsForUser(request)
     context["departments"] = listOfDepartments
-    message = request.GET.get('tableSearch')
-    if message:
-        user = User.objects.filter(username__contains = message)
-        if user:
-            listOfOfficers = UserDetails.objects.filter()
-            context["officers"] = listOfOfficers
-    else:
-        listOfOfficers = UserDetails.objects.exclude(user = 1)
-        context["officers"] = listOfOfficers
-
     return HttpResponse(template.render(context, request))
 
 def addOfficer(request):
@@ -76,7 +66,8 @@ def addOfficer(request):
             details = UserDetails()
             details.user = user
             details.badgeNumber = request.POST.get('officerBadgeNumber')
-            details.department = Department.objects.get(id=request.POST.get('department'))
+            if request.POST.get('department') != "NoDep":
+                details.department = Department.objects.get(id=request.POST.get('department'))
             user.save()
             details.save()
         except:

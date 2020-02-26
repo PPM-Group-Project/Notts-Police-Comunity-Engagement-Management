@@ -1,23 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
-# Databasase model for storing community representative details,
-# future upgrades to the program include providing ability for 
-# community respresentatives to login to a system and create 
-# request for session
 class Representative(models.Model):
+    """
+    Databasase model for storing community representative details
+
+    Future upgrades to the program include providing ability for 
+    community respresentatives to login to a system and create 
+    request for session
+    """
+    ## Unique Id for data entry in this model
     id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=100, null=False)
     lastName = models.CharField(max_length=100, null=False)
     eMail = models.EmailField(null=False)
     address = models.TextField()
 
-# Database model for storing communities on the system.
-# Provides details about community, and also stores
-# preffered frequency of officer visit sessions
+
 class Community(models.Model):
-    id = models.AutoField(primary_key=True)
+    """
+    Database model for storing communities on the system.
+
+    Provides details about community, and also stores
+    preffered frequency of officer visit sessions
+
+    """
+    ## Unique Id for data entry in this model
+    id = models.AutoField(primary_key=True) 
     name = models.CharField(max_length=50, null=False)
     description = models.TextField()
     address = models.TextField()
@@ -28,49 +40,78 @@ class Community(models.Model):
         Representative, on_delete=models.SET_NULL, null=True
     )
 
-# Database model for storing events that need to be scheduled.
-# Events to be scheduled are added to this model automatically by
-# calculating recommended date obtained to community model.
-# NOTE: THESE ARE NOT SCHEDULED EVENTS!
-# Each event needs manual review by Events Managers, after review,
-# evented is added to ScheduledEvent models, and deleted from this one.
+
+
 class EventToSchedule(models.Model):
+    """
+     Database model for storing events that need to be scheduled.
+
+     Events to be scheduled are added to this model automatically by
+     calculating recommended date obtained to community model.
+     NOTE: THESE ARE NOT SCHEDULED EVENTS!
+     Each event needs manual review by Events Managers, after review,
+     evented is added to ScheduledEvent models, and deleted from this one.
+    """
+
+    ## Unique Id for data entry in this model
     id = models.AutoField(primary_key=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     isManualyAdded = models.BooleanField(default=False)
     recommendedReview = models.BooleanField(default=False)
     canceledBefore = models.BooleanField(default=False)
     recommendedDate = models.DateField()
-    recommendedTime = models.TimeField(default=None,null = True)
-    def isOverdue(self):
-        if (self.recommendedTime):
-            return (datetime.now().date() > self.recommendedDate and datetime.now().time() > self.recommendedTime)
-        else:
-            return(datetime.now().date() > self.recommendedDate)
+    recommendedTime = models.TimeField(default=None, null=True)
 
-# Database model for storing events that are scheduled by Event Managers.
-# When sucesfull, events get delted from this model and pushed to
-# CompletedEvents model, where officer can leave a review.
-# Also, officer can propose change to scheduled events, which must be approved
-# by event managers
+    def isOverdue(self):
+        if self.recommendedTime:
+            return (
+                datetime.now().date() > self.recommendedDate
+                and datetime.now().time() > self.recommendedTime
+            )
+        else:
+            return datetime.now().date() > self.recommendedDate
+
+
+
 class ScheduledEvent(models.Model):
-    def fromScheduledToCanceled(collector, user, oldrecords, using):
-        for i in oldrecords:
-            newEvent = EventToSchedule()
-            newEvent.community = i.community
-            newEvent.canceledBefore = True
-            newEvent.recommendedDate = i.date
-            newEvent.recommendedTime = i.time
-            newEvent.save()
-            i.delete()
+    """
+     Database model for storing events that are scheduled by Event Managers.
+
+     When sucesfull, events get delted from this model and pushed to
+     CompletedEvents model, where officer can leave a review.
+     Also, officer can propose change to scheduled events, which must be approved
+     by event managers
+    """
+
+    def reschedule(self):
+        newEvent = EventToSchedule()
+        newEvent.community = self.community
+        newEvent.canceledBefore = True
+        newEvent.recommendedDate = self.date
+        newEvent.recommendedTime = self.time
+        newEvent.save()
+        self.delete()
+
+    ## Unique Id for data entry in this model
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=fromScheduledToCanceled, null=True)
+    users = models.ManyToManyField(User)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
-    
+
+
 class CompletedEvents(models.Model):
-    id = models.IntegerField(primary_key=True,null=False)
+    """
+    Database model for storing events that officers marked as complete
+
+    This model will provide perament storage for all events on system, also
+    will serve as a foreign key to feedback model contatining officer given
+    feedback on efficiency of event
+    """
+
+    ## Unique Id for data entry in this model
+    id = models.IntegerField(primary_key=True, null=False)
+    users = models.ManyToManyField(User)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()

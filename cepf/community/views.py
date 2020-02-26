@@ -30,9 +30,9 @@ def addCommunity(request):
     if isUserCommunityManager(request) == False:
         return redirect(notAuthorisedPage)
     if request.method == "POST":
+        com = Community()
+        rep = Representative()
         try:
-            com = Community()
-            rep = Representative()
             com.name = request.POST.get("communityName")
             com.description = request.POST.get("communityDescription")
             com.address = request.POST.get("communityAddress")
@@ -104,7 +104,9 @@ def addCommunity(request):
                     event.recommendedDate = i
                     event.save()
         except:
-            pass
+            rep.delete()
+            com.delete()
+            event.delete()
     return redirect(communities)
 
 def removeCommunity(request,communityId):
@@ -119,7 +121,7 @@ def events(request):
     template = loader.get_template("events.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["evenst"] = EventToSchedule.objects.all().order_by('recommendedDate','recommendedTime')
+    context["events"] = EventToSchedule.objects.all().order_by('recommendedDate','recommendedTime')
     context["officers"] = UserDetails.objects.exclude(user = 1)
     return HttpResponse(template.render(context, request))
 
@@ -136,18 +138,29 @@ def scheduleEvent(request,eventid):
     if isUserEventManager(request) == False:
         return redirect(notAuthorisedPage)
     if request.method == 'POST':
-        officerid = request.POST.get("officerid")
-        eventdatetime = request.POST.get("datetime")
-        eventdatetime = datetime.strptime( eventdatetime, "%Y-%m-%dT%H:%M")
-        eventSchedule = EventToSchedule.objects.get(id = eventid)
         newEvent = ScheduledEvent()
-        newEvent.user = User.objects.get(id = int(officerid))
-        newEvent.community = eventSchedule.community
-        newEvent.date = eventdatetime.date()
-        newEvent.time = eventdatetime.time()
-        newEvent.save()
-        eventSchedule.delete()
+        try:
+            officers = request.POST.getlist("officers")
+            eventdatetime = request.POST.get("datetime")
+            eventdatetime = datetime.strptime( eventdatetime, "%Y-%m-%dT%H:%M")
+            eventSchedule = EventToSchedule.objects.get(id = eventid)
+            newEvent.community = eventSchedule.community
+            newEvent.date = eventdatetime.date()
+            newEvent.time = eventdatetime.time()
+            newEvent.save()
+            for officer in officers:
+                newEvent.users.add(User.objects.get(id = int(officer)))
+            newEvent.save()
+            eventSchedule.delete()
+        except:
+            newEvent.delete()
         return redirect(scheduledEvents)
+
+def rescheduleEvent(request,eventid):
+    if isUserEventManager(request) == False:
+        return redirect(notAuthorisedPage)
+    event = ScheduledEvent.objects.get(id = eventid).reschedule()
+    return redirect(events)
 
 def completedEvents(request):
     if isUserEventManager(request) == False:
@@ -160,11 +173,11 @@ def completedEvents(request):
 
 def myEvents(request):
     #beware; this view does not need authentication, every user can access it
+    currentUser = returnCurrentUser(request) #returnCurrentUser function will kick user is None
     template = loader.get_template("myevents.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    currentUser = returnCurrentUser(request)
-    context["events"] = ScheduledEvent.objects.filter(user = currentUser)
+    context["events"] = ScheduledEvent.objects.filter(users__id = currentUser.id).distinct()
     return HttpResponse(template.render(context,request))
 
     
