@@ -13,7 +13,7 @@ from management.views import returnCurrentUser
 
 from django.contrib.auth.models import User
 from management.models import UserDetails, Department
-from .models import Representative, Community, EventToSchedule, ScheduledEvent
+from .models import *
 
 
 def communities(request):
@@ -168,16 +168,24 @@ def completedEvents(request):
     template = loader.get_template("completedevents.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["events"] = ScheduledEvent.objects.all().order_by('date' , 'time')
+    context["events"] =  CompletedEvent.objects.all().order_by('date' , 'time')
     return HttpResponse(template.render(context, request))
+
+def completeEvent(request,eventid):
+    #beware; this view does not need authentication, every user can access it
+    currentUser = returnCurrentUser(request) 
+    if currentUser == None : return redirect(notAuthorisedPage)
+    ScheduledEvent.objects.get(id = eventid).complete()
+    return redirect(myEvents)
 
 def myEvents(request):
     #beware; this view does not need authentication, every user can access it
-    currentUser = returnCurrentUser(request) #returnCurrentUser function will kick user is None
+    currentUser = returnCurrentUser(request) 
+    if currentUser == None : return redirect(notAuthorisedPage)
     template = loader.get_template("myevents.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["events"] = ScheduledEvent.objects.filter(users__id = currentUser.id).distinct()
+    context["events"] = ScheduledEvent.objects.filter(officers__id = currentUser.id).distinct()
     return HttpResponse(template.render(context,request))
 
     

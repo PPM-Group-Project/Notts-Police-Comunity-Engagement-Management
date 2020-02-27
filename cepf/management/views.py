@@ -127,6 +127,7 @@ def removeDepartment(request,departmentId):
 
 def isUserOfficerManager(request):
     currentUser = returnCurrentUser(request)
+    if currentUser == None : return False
     # change parameter below to check for different privilege
     if UserDetails.objects.get(user=currentUser).isOfficerManager():
         return True
@@ -134,12 +135,14 @@ def isUserOfficerManager(request):
 
 def isUserDepartmentManager(request):
     currentUser = returnCurrentUser(request)
+    if currentUser == None : return False
     # change parameter below to check for different privilege
     if UserDetails.objects.get(user=currentUser).isDepartmentManager():
         return True
     return False
 def isUserEventManager(request):
     currentUser = returnCurrentUser(request)
+    if currentUser == None : return False
     # change parameter below to check for different privilege
     if UserDetails.objects.get(user=currentUser).isEventManager():
         return True
@@ -147,6 +150,7 @@ def isUserEventManager(request):
 
 def isUserCommunityManager(request):
     currentUser = returnCurrentUser(request)
+    if currentUser == None : return False
     # change parameter below to check for different privilege
     if UserDetails.objects.get(user=currentUser).isCommunityManager():
         return True
@@ -155,13 +159,12 @@ def isUserCommunityManager(request):
 def returnCurrentUser(details):
     currentUserId = details.user.id
     if currentUserId == None:
-        return redirect(notAuthorisedPage)
+        return None
     try:
         currentUser = User.objects.get(id=currentUserId)
         return currentUser
     except ObjectDoesNotExist:
-        return redirect(notAuthorisedPage)
-
+        return None
 def getAuthsForUser(details):
     auths = {}
     auths["isOfficerManager"] = isUserOfficerManager(details)

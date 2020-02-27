@@ -28,10 +28,10 @@
           <table class="table table-hover text-wrap">
             <thead>
               <tr>
-                <th>Recommended Date</th>
-                <th>Community Name</th>
-                <th>Representative</th>
-                <th>Schedule for</th>
+                <th style="width: 20%;">Recommended Date</th>
+                <th style="width: 15%;">Community Name</th>
+                <th style="width: 10%;">Representative</th>
+                <th style="width: 55%;">Schedule for</th>
               </tr>
             </thead>
             <tbody>
@@ -39,38 +39,45 @@
               {% for e in events %}
               <tr
                 style="{% if e.isOverdue %}color:red; {% endif %} {% if e.canceledBefore %} color:#F1A04F; {% endif %}">
-                <td>{{e.recommendedDate}} {%if e.recommendedTime %} {{e.recommendedTime}} {% endif %} </td>
-                <td>{{e.community.name}}</td>
-                <td>{{e.community.representative.firstName}} {{e.community.representative.lastName}} </td>
-                <td style="width: 500px;">
-                  <form role="form" action="/events/schedule/{{e.id}}" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group" style="margin-bottom:0;">
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                <div class="row">
+                  <td>{{e.recommendedDate}} {%if e.recommendedTime %} {{e.recommendedTime}} {% endif %} </td>
+                  <td>{{e.community.name}}</td>
+                  <td>{{e.community.representative.firstName}} {{e.community.representative.lastName}} </td>
+                  <td>
+                    <form role="form" action="/events/schedule/{{e.id}}" method="POST">
+                      {% csrf_token %}
+                      <div class="form-group" style="margin-bottom:0;">
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                              </div>
+                              <input autocomplete="off" type="datetime-local" name="datetime" class="form-control"
+                                required />
+                              <!-- /.input group -->
                             </div>
-                            <input autocomplete="off" type="datetime-local" name="datetime" class="form-control" required/>
-                            <!-- /.input group -->
+                          </div>
+                          <div class="col-5">
+                            <select name="officers" class="officerListSelector" multiple="multiple"
+                              style="width: 100%;">
+                              {% if officers %}
+                              {% for o in officers %}
+                              <option value={{o.user.id}}>{{o.user.first_name}} {{o.user.last_name}}</option>
+                              {% endfor %}
+                              {% endif %} </select>
+                          </div>
+                          <div class="input-group-append col-1">
+                            <div  class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Schedule event">
+
+                            <button type="submit" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-5">
-                          <select name="officers" class="js-example-responsive" multiple="multiple" style="width: 100%;">
-                            {% if officers %}
-                            {% for o in officers %}
-                            <option value={{o.user.id}}>{{o.user.first_name}} {{o.user.last_name}}</option>
-                            {% endfor %}
-                            {% endif %}                          </select>
-                        </div>
-                        <div class="input-group-append col-1">
-                          <button type="submit" class="btn btn-default"><i class="fas fa-plus"></i></button>
-                        </div>
                       </div>
-                    </div>
-                  </form>
-                </td>
+                    </form>
+                  </td>
+                </div>
               </tr>
               {% endfor %}
               {% endif %}
@@ -85,8 +92,8 @@
 
 {% block body %}
 <script>
-$(".js-example-responsive").select2({
-    width: 'resolve' // need to override the changed default
-});
+  $(".officerListSelector").select2({
+    theme: "classic"
+  });
 </script>
 {% endblock %}

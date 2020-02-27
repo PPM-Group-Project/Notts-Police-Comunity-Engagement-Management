@@ -92,6 +92,20 @@ class ScheduledEvent(models.Model):
         newEvent.save()
         self.delete()
 
+    def complete(self):
+        if True:
+            event = CompletedEvent()
+            event.id = self.id
+            event.community = self.community
+            event.date = self.date
+            event.time = self.time
+            event.save()
+            for o in self.officers.all():
+                event.officers.add(o)
+            event.save()
+            self.delete()
+        else:
+            pass
     ## Unique Id for data entry in this model
     id = models.AutoField(primary_key=True)
     officers = models.ManyToManyField(User)
@@ -100,7 +114,7 @@ class ScheduledEvent(models.Model):
     time = models.TimeField()
 
 
-class CompletedEvents(models.Model):
+class CompletedEvent(models.Model):
     """
     Database model for storing events that officers marked as complete
 
