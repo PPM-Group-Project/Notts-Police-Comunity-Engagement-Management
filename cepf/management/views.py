@@ -10,6 +10,8 @@ from .models import UserDetails, Department
 from django.contrib.auth.models import User
 
 def chartData_OfficersPerDepartment(request):
+    if isUserOfficerManager(request) == False:
+        return redirect(notAuthorisedPage)
 
     """
           var donutData = {

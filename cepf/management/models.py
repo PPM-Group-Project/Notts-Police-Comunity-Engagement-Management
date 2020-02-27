@@ -64,8 +64,8 @@ class UserDetails(models.Model):
 
 def setupDb():
     superuser = User()
-    superuser.username = "Superuser"
-    superuser.set_password("Superuser")
+    superuser.username = "superuser"
+    superuser.set_password("superuser")
     superuser.first_name = "Super"
     superuser.last_name = "User"
     superuser.email = "ivica-matic@outlook.com"
@@ -89,4 +89,3 @@ def setupDb():
     officerDepartment.responsibleOfficer = superuser
     officerDepartment.save()
 
-    
