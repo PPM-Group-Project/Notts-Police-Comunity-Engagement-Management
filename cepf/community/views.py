@@ -188,4 +188,13 @@ def myEvents(request):
     context["events"] = ScheduledEvent.objects.filter(officers__id = currentUser.id).distinct()
     return HttpResponse(template.render(context,request))
 
+def myEventsCompleted(request):
+    #beware; this view does not need authentication, every user can access it
+    currentUser = returnCurrentUser(request) 
+    if currentUser == None : return redirect(notAuthorisedPage)
+    template = loader.get_template("myevents.html")
+    context = {}
+    context["permissions"] = getAuthsForUser(request)
+    context["events"] = CompletedEvent.objects.filter(officers__id = currentUser.id).distinct()
+    return HttpResponse(template.render(context,request))
     

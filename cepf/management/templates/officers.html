@@ -261,17 +261,11 @@
       document.getElementById('officerUsername').value = text;
     } else {
       document.getElementById('officerUsername').value = text.split('@')[0];
-
     }
   });
   $(function () {
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-
-    var donutData;
-
     $.getJSON('/charts/officersPerDepartment', function (jsonData) {
-
-
       var donutOptions = {
         maintainAspectRatio: false,
         responsive: true,
