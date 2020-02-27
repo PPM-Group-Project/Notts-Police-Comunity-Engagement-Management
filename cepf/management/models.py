@@ -61,3 +61,32 @@ class UserDetails(models.Model):
         except:
             return False
         return False
+
+def setupDb():
+    superuser = User()
+    superuser.username = "Superuser"
+    superuser.set_password("Superuser")
+    superuser.first_name = "Super"
+    superuser.last_name = "User"
+    superuser.email = "ivica-matic@outlook.com"
+    superuser.save()
+
+    superDepartment = Department()
+    superDepartment.departmentName = "Superusers"
+    superDepartment.departmentDescription = "Default department for super users"
+    superDepartment.responsibleOfficer = superuser
+    superDepartment.isCommunityManager = superDepartment.isDepartmentManager = superDepartment.isEventManager = superDepartment.isOfficerManager = True
+    superDepartment.save()
+
+    superUserDetails = UserDetails()
+    superUserDetails.user = superuser
+    superUserDetails.department = superDepartment
+    superUserDetails.save()
+
+    officerDepartment = Department()
+    officerDepartment.departmentName = "Officers"
+    officerDepartment.departmentDescription = "Department for officers without prvilege on system"
+    officerDepartment.responsibleOfficer = superuser
+    officerDepartment.save()
+
+    

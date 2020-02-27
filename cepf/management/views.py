@@ -3,9 +3,58 @@ from django.shortcuts import loader
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ObjectDoesNotExist
+import json
+
 
 from .models import UserDetails, Department
 from django.contrib.auth.models import User
+
+def chartData_OfficersPerDepartment(request):
+
+    """
+          var donutData = {
+          labels: [
+              '',
+              '',
+              '',
+  
+          ],
+          datasets: [{
+              data: [100, 500, 400],
+              backgroundColor: ['#f56954', '#00a65a', '#f39c12'],
+          }]
+      }
+
+    """
+    chartColours = ['#FF7F50',
+                    '#FF6347',
+                    '#FF4500',
+                    '#FFD700',
+                    '#FFA500',
+                    '#FF8C00'
+    ]
+
+    labels = []
+    data = []
+    backgroundColor = []
+
+    deps = Department.objects.all()
+    for x in deps:
+        if x.departmentName == "Superusers" : continue
+        labels.append(x.departmentName)
+        data.append(UserDetails.objects.filter(department = x).count())
+        backgroundColor.append(chartColours.pop())
+
+    finalObject = {}
+    finalObject["labels"] = labels
+    _datasetObj = {}
+    _datasetObj["data"] = data
+    _datasetObj["backgroundColor"] = backgroundColor
+    finalObject["datasets"] = [_datasetObj]
+
+    return HttpResponse(json.dumps(finalObject), content_type="application/json")
+
+
 
 def notAuthorisedPage(request):
     return HttpResponse("You are not authorised to access this property!")
@@ -48,7 +97,7 @@ def officers(request):
     template = loader.get_template('officers.html')
     context = {}
     context["permissions"] = getAuthsForUser(request)
-    context["departments"] = Department.objects.all()
+    context["departments"] = Department.objects.exclude(id = 1)
     listOfOfficers = UserDetails.objects.exclude(user = 1)
     context["officers"] = UserDetails.objects.exclude(user = 1)
     

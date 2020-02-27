@@ -13,4 +13,6 @@ urlpatterns = [
     path('departments/', views.departments),
     path('departments/add', views.addDepartment),
     path('departments/remove/<int:departmentId>',views.removeDepartment),
+
+    path('charts/officersPerDepartment',views.chartData_OfficersPerDepartment),
 ]
