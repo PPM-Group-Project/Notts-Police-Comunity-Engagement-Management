@@ -1,7 +1,7 @@
 <div>
   {% if permissions.isOfficerManager %}
   <li class="nav-item">
-    <a href="/officers" class="nav-link">
+    <a href="/officers/" id="officersSelection" class="nav-link">
       <i class="fas fa-user-friends"></i>
       <p>Officers</p>
     </a>
@@ -9,7 +9,7 @@
   {% endif %}
   {% if permissions.isDepartmentManager %}
   <li class="nav-item">
-    <a href="/departments" class="nav-link">
+    <a href="/departments/" id="departmentsSelection" class="nav-link">
       <i class="fas fa-building"></i>
       <p>Departments</p>
     </a>
@@ -17,14 +17,14 @@
   {% endif %}
   {% if permissions.isCommunityManager %}
   <li class="nav-item">
-    <a href="/communities" class="nav-link">
+    <a href="/communities/" id="communitiesSelection" class="nav-link">
       <i class="nav-icon fas fa-handshake"></i>
       <p>Communities</p>
     </a>
   </li>
   {% endif %}
   {% if permissions.isEventManager %}
-  <li id="sidebar-events" class="nav-item has-treeview">
+  <li id="events" class="nav-item has-treeview">
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-calendar"></i>
       <p>
@@ -32,25 +32,25 @@
         <i class="right fas fa-angle-left"></i>
       </p>
     </a>
-    <ul class="nav nav-treeview">
+    <ul style="margin-left:30px;" class="nav nav-treeview">
       <li class="nav-item">
-        <a href="/events" class="nav-link">
+        <a href="/events/" id="scheduleEventSelection" class="nav-link">
           <i class="fas fa-calendar-plus"></i>
           <p>Schedule event</p>
         </a>
       </li>
     </ul>
-    <ul class="nav nav-treeview">
+    <ul style="margin-left:30px;" class="nav nav-treeview">
       <li class="nav-item">
-        <a href="/events/scheduled" class="nav-link">
+        <a href="/events/scheduled/" id="scheduledEventsSelection" class="nav-link">
           <i class="fas fa-calendar-day"></i>
           <p>Sheduled events</p>
         </a>
       </li>
     </ul>
-    <ul class="nav nav-treeview">
+    <ul style="margin-left:30px;" class="nav nav-treeview">
       <li class="nav-item">
-        <a href="/events/completed" class="nav-link">
+        <a href="/events/completed/" id="completedEventsSelection" class="nav-link">
           <i class="far fa-calendar-check"></i>
           <p>Completed events</p>
         </a>
@@ -58,8 +58,7 @@
     </ul>
   </li>
   {% endif %}
-
-  <li id="sidebar-events" class="nav-item has-treeview">
+  <li id="myevents" class="nav-item has-treeview">
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-calendar"></i>
       <p>
@@ -67,45 +66,90 @@
         <i class="right fas fa-angle-left"></i>
       </p>
     </a>
-    <ul class="nav nav-treeview">
+    <ul style="margin-left:30px;" class="nav nav-treeview">
       <li class="nav-item">
-        <a href="/myevents" class="nav-link">
+        <a href="/myevents/" id="myEventsSelection" class="nav-link">
           <i class="fas fa-calendar-alt"></i>
           <p>Events to do</p>
         </a>
       </li>
     </ul>
-    <ul class="nav nav-treeview">
+    <ul style="margin-left:30px;" class="nav nav-treeview">
       <li class="nav-item">
-        <a href="/myevents" class="nav-link">
+        <a href="/myevents/completed/" id="myCompletedEventsSelection" class="nav-link">
           <i class="fas fa-calendar-check"></i>
           <p>Completed events</p>
         </a>
       </li>
     </ul>
-
   </li>
   <li class="nav-item">
-    <a href="/myfeedback" class="nav-link">
+    <a href="/myfeedback/" id="myFeedbackSelection" class="nav-link">
       <i class="fas fa-pencil-alt"></i>
       <p>My feedback</p>
     </a>
   </li>
-
   <li class="nav-item">
-    <a href="/logout" class="nav-link">
+    <a href="/logout/" class="nav-link">
       <i class="fas fa-sign-out-alt"></i>
       <p>Log out</p>
     </a>
   </li>
-
 </div>
 
-<script>
-  var url = window.location.href;
-  var isEventPage = url.includes("events");
-  if (isEventPage) {
-    var v = document.getElementById("sidebar-events");
+<script type="text/javascript">
+
+  function getCurrentMenuName() {
+    var url = window.location.href;
+    url = url.split("/")[3];
+    return (url);
+  }
+
+  function getCurrentSelectionName() {
+    var url = window.location.href;
+    url = url.split("/");
+    urla = (url[url.length - 2]);
+    urlb = (url[url.length - 3]);
+    url = urlb + "/" + urla;
+    return (url);
+  }
+
+  function setMenuActive(elementId) {
+    var v = document.getElementById(elementId);
     v.className += " menu-open";
   }
+
+  function setSelectionActive(elementId) {
+    var v = document.getElementById(elementId);
+    v.className += " active";
+  }
+
+  if (getCurrentMenuName() === "events")
+    setMenuActive("events");
+
+  if (getCurrentMenuName() === "myevents")
+    setMenuActive("myevents");
+
+  var selection = getCurrentSelectionName();
+  if (selection === "events/scheduled")
+    setSelectionActive("scheduledEventsSelection");
+  else if (selection === "events/completed")
+    setSelectionActive("completedEventsSelection");
+  else if (selection === "myevents/completed")
+    setSelectionActive("myCompletedEventsSelection");
+
+  else if (section.includes("myfeedback"))
+    setSelectionActive("myFeedbackSelection");
+  else if (selection.includes("myevents"))
+    setSelectionActive("myEventsSelection");
+  else if (selection.includes("officers"))
+    setSelectionActive("officersSelection");
+  else if (selection.includes("departments"))
+    setSelectionActive("departmentsSelection");
+  else if (selection.includes("communities"))
+    setSelectionActive("communitiesSelection");
+
+  else if (selection.includes("events"))
+    setSelectionActive("scheduleEventSelection");
+
 </script>
