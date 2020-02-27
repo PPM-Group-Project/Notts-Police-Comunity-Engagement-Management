@@ -106,12 +106,8 @@
   }
 
   function getCurrentSelectionName() {
-    var url = window.location.href;
-    url = url.split("/");
-    urla = (url[url.length - 2]);
-    urlb = (url[url.length - 3]);
-    url = urlb + "/" + urla;
-    return (url);
+    var url = window.location.pathname;
+    return url;
   }
 
   function setMenuActive(elementId) {
@@ -131,25 +127,25 @@
     setMenuActive("myevents");
 
   var selection = getCurrentSelectionName();
-  if (selection === "events/scheduled")
-    setSelectionActive("scheduledEventsSelection");
-  else if (selection === "events/completed")
-    setSelectionActive("completedEventsSelection");
-  else if (selection === "myevents/completed")
-    setSelectionActive("myCompletedEventsSelection");
-
-  else if (section.includes("myfeedback"))
-    setSelectionActive("myFeedbackSelection");
-  else if (selection.includes("myevents"))
-    setSelectionActive("myEventsSelection");
-  else if (selection.includes("officers"))
+  if (selection === ("/officers/"))
     setSelectionActive("officersSelection");
-  else if (selection.includes("departments"))
+  else if (selection === ("/departments/"))
     setSelectionActive("departmentsSelection");
-  else if (selection.includes("communities"))
+  else if (selection === ("/communities/"))
     setSelectionActive("communitiesSelection");
-
-  else if (selection.includes("events"))
+  else if (selection === "/events/")
     setSelectionActive("scheduleEventSelection");
+  else if (selection === "/events/scheduled/")
+    setSelectionActive("scheduledEventsSelection");
+  else if (selection === "/events/completed/")
+    setSelectionActive("completedEventsSelection");
+  else if (selection === ("/myevents/"))
+    setSelectionActive("myEventsSelection");
+  else if (selection === "/myevents/completed/")
+    setSelectionActive("myCompletedEventsSelection");
+  else if (section === ("/myfeedback/"))
+    setSelectionActive("myFeedbackSelection");
+
+
 
 </script>
