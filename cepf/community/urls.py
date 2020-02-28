@@ -15,4 +15,6 @@ urlpatterns = [
     path('myevents/completed/',views.myEventsCompleted),
     path('myevents/complete/<int:eventid>',views.completeEvent),
 
+    path('charts/finishedEventsPerCommunity',views.chartData_FinishedEventsPerCommunity),
+
 ]

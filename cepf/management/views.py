@@ -6,7 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 import json
 
 
-from .models import UserDetails, Department
+from .models import *
+from community.models import *
 from django.contrib.auth.models import User
 
 def chartData_OfficersPerDepartment(request):
@@ -90,7 +91,11 @@ def dashboard(request):
     context = {}
     if (request.user.is_authenticated == False):
         return redirect(loginUser)
+    currentUser = returnCurrentUser(request)
     context["permissions"] = getAuthsForUser(request)
+    context["eventstodo"] = ScheduledEvent.objects.filter(officers__id = currentUser.id).count()
+    context["eventsdone"] = CompletedEvent.objects.filter(officers__id = currentUser.id).count()
+    context["dep"] = UserDetails.objects.get(user = currentUser).department
     return HttpResponse(template.render(context, request))
 
 def officers(request):

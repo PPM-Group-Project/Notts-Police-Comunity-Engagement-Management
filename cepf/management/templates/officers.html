@@ -43,7 +43,6 @@
               <div class="form-group">
                 <label>Department</label>
                 <select class="form-control" name="department">
-                  <option value="NoDep">None</option>
                   {% if departments %} {% for dep in departments %}
                   <option value="{{dep.id}}">{{dep.departmentName}}</option>
                   {% endfor %} {% endif %}

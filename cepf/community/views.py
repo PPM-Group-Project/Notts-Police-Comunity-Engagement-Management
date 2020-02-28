@@ -4,6 +4,7 @@ from django.shortcuts import loader
 from django.http import HttpResponse
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import json
 
 from management.views import notAuthorisedPage
 from management.views import isUserCommunityManager
@@ -14,6 +15,28 @@ from management.views import returnCurrentUser
 from django.contrib.auth.models import User
 from management.models import UserDetails, Department
 from .models import *
+
+def chartData_FinishedEventsPerCommunity(request):
+    backgroundColor =  ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+    labels = []
+    data = []
+    colour = []
+    for c in Community.objects.all():
+        count = CompletedEvent.objects.filter(community = c).count()
+        if (count == 0): continue
+        name = c.name
+        labels.append(name)
+        data.append(count)
+        colour.append(backgroundColor.pop())
+    
+    finalObj = {}
+    finalObj["labels"] = labels
+    finalObj["datasets"] = [{"data":data, "backgroundColor" : colour}]
+    return HttpResponse(json.dumps(finalObj), content_type="application/json")
+
+
+
+
 
 
 def communities(request):
@@ -192,7 +215,7 @@ def myEventsCompleted(request):
     #beware; this view does not need authentication, every user can access it
     currentUser = returnCurrentUser(request) 
     if currentUser == None : return redirect(notAuthorisedPage)
-    template = loader.get_template("myevents.html")
+    template = loader.get_template("mycompletedevents.html")
     context = {}
     context["permissions"] = getAuthsForUser(request)
     context["events"] = CompletedEvent.objects.filter(officers__id = currentUser.id).distinct()
