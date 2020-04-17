@@ -12,7 +12,7 @@ class Department(models.Model):
         User, on_delete=models.CASCADE, null=True)
     # description of the department
     departmentDescription = models.CharField(max_length=100, default="")
-    # privileges of if events in the department
+    # privileges of the officers in the department
     isOfficerManager = models.BooleanField(default=False)
     isDepartmentManager = models.BooleanField(default=False)
     isCommunityManager = models.BooleanField(default=False)

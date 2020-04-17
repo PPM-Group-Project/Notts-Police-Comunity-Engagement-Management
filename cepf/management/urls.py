@@ -1,18 +1,17 @@
 from django.urls import path
 
-from . import views
+from . import views as ManagementView
 
 urlpatterns = [
-    path('', views.dashboard),
-    path('login/', views.loginUser),
-    path('logout/', views.logoutUser),
-    path('nonauthorised/', views.notAuthorisedPage),
-    path('officers/', views.officers),
-    path('officers/add', views.addOfficer),
-    path('officers/remove/<int:officerId>',views.removeOfficer),
-    path('departments/', views.departments),
-    path('departments/add', views.addDepartment),
-    path('departments/remove/<int:departmentId>',views.removeDepartment),
-
-    path('charts/officersPerDepartment',views.chartData_OfficersPerDepartment),
+    path('', ManagementView.dashboard),
+    path('login/', ManagementView.loginUser),
+    path('logout/', ManagementView.logoutUser),
+    path('officers/', ManagementView.officers),
+    path('officers/add', ManagementView.addOfficer),
+    path('officers/remove/<int:officerId>',ManagementView.removeOfficer),
+    path('departments/', ManagementView.departments),
+    path('departments/add', ManagementView.addDepartment),
+    path('departments/remove/<int:departmentId>',ManagementView.removeDepartment),
+    path('charts/officersPerDepartment',ManagementView.chartData_OfficersPerDepartment),
+    path('nonauthorised/', ManagementView.notAuthorisedPage),
 ]
