@@ -17,7 +17,7 @@ from management.models import UserDetails, Department
 from .models import *
 
 def chartData_FinishedEventsPerCommunity(request):
-    backgroundColor =  ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+    backgroundColor = ['#FF7F50','#FF6347','#FF4500','#FFD700','#FFA500','#FF8C00','#003f5c','#2f4b7c','#665191','#a05195','#d45087','#f95d6a','#ff7c43','#ffa600']
     labels = []
     data = []
     colour = []
