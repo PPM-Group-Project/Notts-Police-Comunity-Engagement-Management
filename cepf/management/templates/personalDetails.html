@@ -4,11 +4,10 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-12 col-md-4">
-    <div class="card card-primary">
+    
+    <div class="card">
       <div class="card-body box-profile">
         <div class="text-center">
-          <!-- <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg"
-            alt="User profile picture"> -->
         </div>
         <h3 class="profile-username text-center">{{request.user.first_name}} {{request.user.last_name}}</h3>
         <p class="text-muted text-center">{{request.user.username}}</p>
@@ -22,67 +21,28 @@
         </ul>
       </div>
     </div>
-    <div class="card">
+    <div class="card card-warning">
       <div class="card-header">
         <h3 class="card-title">Details</h3>
       </div>
       <div class="card-body">
         {% if dep %}
-        <strong><i class="fas fa-book mr-1"></i> Department </strong>
+        <strong><i class="fas fa-book mr-1"></i>Department</strong>
         <p class="text-muted">
           {{dep.departmentName}}
         </p>
         <hr>
+        {% else %}
+        <p class="text-muted">
+          Officer
+        </p>
         {% endif %}
       </div>
     </div>
   </div>
   <div class="col-sm-12 col-md-8" style="margin: 0; padding: 0;">
-
     <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Completed events</h3>
-        </div>
-        <div>
-          <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-wrap">
-              <thead>
-                <tr>
-                  <th style="width: 20%;">Date</th>
-                  <th style="width: 20%;">Community Name</th>
-                  <th style="width: 40%;">Community Address</th>
-                  <th style="width: 20%;">Officer</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% if completedEvents %}
-                {% for e in completedEvents%}
-                <tr>
-                  <td>{{e.date}} {{e.time}}</td>
-                  <td>{{e.community.name}}</td>
-                  <td>{{e.community.address}}</td>
-                  <td>{% if e.officers.all %}
-                    {% for u in e.officers.all %}
-                    {{u.first_name}} {{u.last_name}}
-                    <br>
-                    {% endfor %}
-                    {% else %}
-                    <p style="color: red;">Officer removed from system</p>
-                    {% endif %}
-                  </td>
-                </tr>
-                {% endfor %}
-                {% endif %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12">
-      <div class="card">
+      <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title">My Events</h3>
 
@@ -125,6 +85,48 @@
         </div>
       </div>
     </div>
+    <div class="col-12">
+      <div class="card card-success">
+        <div class="card-header">
+          <h3 class="card-title">Completed events</h3>
+        </div>
+        <div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-wrap">
+              <thead>
+                <tr>
+                  <th style="width: 20%;">Date</th>
+                  <th style="width: 20%;">Community Name</th>
+                  <th style="width: 40%;">Community Address</th>
+                  <th style="width: 20%;">Officer</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if completedEvents %}
+                {% for e in completedEvents%}
+                <tr>
+                  <td>{{e.date}} {{e.time}}</td>
+                  <td>{{e.community.name}}</td>
+                  <td>{{e.community.address}}</td>
+                  <td>{% if e.officers.all %}
+                    {% for u in e.officers.all %}
+                    {{u.first_name}} {{u.last_name}}
+                    <br>
+                    {% endfor %}
+                    {% else %}
+                    <p style="color: red;">Officer/s removed from system</p>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}
