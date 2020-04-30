@@ -122,8 +122,6 @@ class CompletedEvent(models.Model):
     will serve as a foreign key to feedback model contatining officer given
     feedback on efficiency of event
     """
-
-    ## Unique Id for data entry in this model
     id = models.IntegerField(primary_key=True, null=False)
     officers = models.ManyToManyField(User)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)

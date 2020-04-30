@@ -139,7 +139,7 @@ def removeOfficer(request,officerId):
     return redirect(officers)
 
 def departments(request):
-    if isUserOfficerManager(request) == False:
+    if isUserDepartmentManager(request) == False:
         return redirect(notAuthorisedPage)
     template = loader.get_template('departments.html')
     context = {}

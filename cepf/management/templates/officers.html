@@ -81,7 +81,7 @@
     </div>
   </div>
   <div class="col-12 col-md-6 col-lg-6">
-    <div class="card card-danger" style="height: 310.5px;">
+    <div class="card card-danger" style="height: 492px;">
       <div class="card-header">
         <h3 class="card-title">Officers per department</h3>
         <div class="card-tools">
@@ -94,31 +94,9 @@
   </div>
   <div class="d-md-none col-12">
     <div class="card">
-      <form role="form" action="/officers" method="GET">
-        <div class="card-header">
-          <div class="card-tools">
-            <div class="input-group">
-              <div class="row form-group" style="margin-bottom:0;">
-                <div class="col-3">
-                  <select class="form-control" name="tableSearchSelect">
-                    <option>eMail</option>
-                    <option>Badge Number</option>
-                    <option>First Name</option>
-                    <option>Last Name</option>
-                  </select>
-                </div>
-                <div class="col-7">
-                  <input autocomplete="off" type="text" name="tableSearch" class="form-control float-right"
-                    placeholder="Search">
-                </div>
-                <div class="input-group-append col-2">
-                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
+      <div class="card-header">
+        <h3 class="card-title">Officers</h3>
+      </div>
       <div class="card-body table-responsive p-0">
         <table class="table table-hover text-wrap">
           <tbody>
@@ -187,33 +165,11 @@
       </div>
     </div>
   </div>
-  <div class="d-none d-md-block col-md-6 col-lg-6">
+  <div class="d-none d-md-block col-md-12 col-lg-12">
     <div class="card">
-      <form role="form" action="/officers" method="GET">
-        <div class="card-header">
-          <div class="card-tools">
-            <div class="input-group">
-              <div class="row form-group" style="margin-bottom:0;">
-                <div class="col-3">
-                  <select class="form-control" name="tableSearchSelect">
-                    <option>eMail</option>
-                    <option>Badge Number</option>
-                    <option>First Name</option>
-                    <option>Last Name</option>
-                  </select>
-                </div>
-                <div class="col-7">
-                  <input autocomplete="off" type="text" name="tableSearch" class="form-control float-right"
-                    placeholder="Search">
-                </div>
-                <div class="input-group-append col-2">
-                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
+      <div class="card-header">
+        <h3 class="card-title">Officers</h3>
+      </div>
       <div class="card-body table-responsive p-0">
         <table class="table table-hover text-wrap">
           <thead>
@@ -235,7 +191,7 @@
               <td>{{officer.badgeNumber}}</td>
               <td>{{officer.department.departmentName}}</td>
               <td>
-                <a href="/officers/remove/{{officer.user.id}}">
+                <a href="/officers/remove/{{officer.user.id}}" onclick="return confirm('Are you sure you want to delete this officer? This will result in having to reschedule all events for this officer!')">
                   <div class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Delete officer">
                     <button class="btn btn-default" style="pointer-events: none;" type="button"><i
                         class="fas fa-trash-alt"></i></button>
