@@ -68,6 +68,8 @@ def dashboard(request):
     context["eventstodo"] = ScheduledEvent.objects.filter(officers__id = currentUser.id).count()
     context["eventsdone"] = CompletedEvent.objects.filter(officers__id = currentUser.id).count()
     context["dep"] = UserDetails.objects.get(user = currentUser).department
+    context["scheduledEvents"] = ScheduledEvent.objects.filter(officers__id = currentUser.id).distinct()
+    context["completedEvents"] = CompletedEvent.objects.filter(officers__id = currentUser.id).distinct()
     return HttpResponse(template.render(context, request))
 
 def officers(request):

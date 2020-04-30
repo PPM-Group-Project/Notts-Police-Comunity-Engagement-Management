@@ -34,11 +34,6 @@ def chartData_FinishedEventsPerCommunity(request):
     finalObj["datasets"] = [{"data":data, "backgroundColor" : colour}]
     return HttpResponse(json.dumps(finalObj), content_type="application/json")
 
-
-
-
-
-
 def communities(request):
     if isUserCommunityManager(request) == False:
         return redirect(notAuthorisedPage)
